@@ -1,0 +1,42 @@
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+medivision/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Data / large files
+data/
+*.h5
+*.pt
+*.pth
+*.ckpt
+
+# Logs
+experiments/logs/
+*.log
+
+# Figures / reports
+reports/figures/
+reports/tables/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
