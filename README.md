@@ -142,14 +142,21 @@ MediVision-Flare25/
 ├── data/                     <- (Gitignored) placeholder for datasets
 │   └── README.md             <- Instructions for downloading FLARE25
 │
+├──experiments/               <- Configs & logs
+│   ├── configs/              <- JSON/YAML configs for experiments
+│   └── logs/                 <- Training logs, saved metrics
+│
 ├── reports/                  <- Outputs and deliverables
 │   ├── figures/              <- Visualizations
 │   ├── tables/               <- Metrics/results
-│   └── draft_report/         <- IEEE-style report drafts
+│   └── draft_reports/        <- IEEE-style report drafts
 │
-└── experiments/              <- Configs & logs
-    ├── configs/              <- JSON/YAML configs for experiments
-    └── logs/                 <- Training logs, saved metrics
+└──  deliverables/          # Finalized pieces to submit
+    ├── part1_exploration.pdf
+    ├── part1_litreview.pdf
+    ├── part2_benchmarking.pdf
+    ├── part3_method_description.pdf
+    └── final_report.pdf
 ```
 
 ## 🔜 Project Status
