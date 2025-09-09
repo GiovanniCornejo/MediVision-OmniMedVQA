@@ -76,4 +76,28 @@ Briefly introduce the scope of the literature review:
 
 [MMed-RAG: Versatile Multimodal RAG System for Medical Vision Language Models](https://arxiv.org/abs/2410.13085)
 
+[Few-shot medical image classification with simple shape and texture text descriptors using vision-language models](https://arxiv.org/pdf/2308.04005)
+
+[MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/pdf/2210.10163)
+
+[ViLMedic: aframework for research at the intersection of vision and language in medical AI](https://aclanthology.org/2022.acl-demo.3.pdf)
+
+[CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction](https://arxiv.org/pdf/2304.08013)
+
+[LLaVA-Med: Training a Large Language-and-Vision Assistant for Biomedicine in One Day](https://arxiv.org/pdf/2306.00890)
+
+[MMedAgent-RL: Optimizing Multi-Agent Collaboration for Multimodal Medical Reasoning](https://arxiv.org/pdf/2506.00555)
+
+[Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview](https://pmc.ncbi.nlm.nih.gov/articles/PMC12108733/)
+
+[Assessing the performance of zero-shot visual question answering in multimodal large language models for 12-lead ECG image interpretation](https://pmc.ncbi.nlm.nih.gov/articles/PMC11839599/)
+
+[MedFuseNet: An attention-based multimodal deep learning model for visual question answering in the medical domain](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494920/)
+
+[Collaborative Modality Fusion for Mitigating Language Bias in Visual Question Answering](https://pmc.ncbi.nlm.nih.gov/articles/PMC10971294/)
+
+[Histopathology in focus: a review on explainable multi-modal approaches for breast cancer diagnosis](https://pmc.ncbi.nlm.nih.gov/articles/PMC11471683/)
+
+[A scoping review on multimodal deep learning in biomedical images and texts](https://pmc.ncbi.nlm.nih.gov/articles/PMC10591890/)
+
 (Will be auto-populated with `pandoc --citeproc` + `references.bib`.)
