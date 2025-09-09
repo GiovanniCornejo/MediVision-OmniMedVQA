@@ -89,6 +89,7 @@ This project relies on the following Python packages:
 - **Notebook / Interactive Environment**:
   - jupyter
   - ipykernel
+  - nbstripout
 
 > **Note:** If you want GPU support for faster training, install a CUDA-enabled version of PyTorch compatible with your GPU and drivers. See [PyTorch Get Started](https://pytorch.org/get-started/locally/) for instructions.
 
