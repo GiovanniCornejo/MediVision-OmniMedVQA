@@ -124,6 +124,7 @@ MediVision-Flare25/
 ├── references.bib            <- BibTeX file with all references and notes
 ├── requirements.txt          <- Python dependencies
 ├── .gitignore
+├── .gitattributes
 │
 ├── notebooks/                <- Jupyter notebooks for different project stages
 │   ├── 01_data_exploration.ipynb
