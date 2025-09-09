@@ -152,7 +152,7 @@ MediVision-Flare25/
 │   ├── tables/               <- Metrics/results
 │   └── draft_reports/        <- IEEE-style report drafts
 │
-└──  deliverables/          # Finalized pieces to submit
+└──  deliverables/            <- Finalized pieces to submit
     ├── part1_exploration.pdf
     ├── part1_litreview.pdf
     ├── part2_benchmarking.pdf
