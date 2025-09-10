@@ -68,9 +68,52 @@ Briefly introduce the scope of the literature review:
 
 ## References
 
-[Multimodal Medical Disease Classification with LLaMA II](https://arxiv.org/abs/2412.01306)
+### Notes on [Multimodal Medical Disease Classification with LLaMA II](https://arxiv.org/abs/2412.01306)
 
-[Med-Flamingo: a Multimodal Medical Few-shot Learner](https://proceedings.mlr.press/v225/moor23a)
+- **Task**
+  - Disease classification from chest X-rays and clinical reports (multimodal input).
+- **Dataset (OpenI)**
+  - 2D chest X-rays ($256 \times 256$) paired with clinical reports.
+  - Labels: 14 disease classes (multi-label classification).
+    - Includes: _Atelectasis, Cardiomegaly, Consolidation, Edema, Pleural Effusion, Pneumonia, Pneumothorax, Support-Devices etc._
+    - _No Finding_ acts as the mutually exclusive class.
+  - Split: 3199 training, 101 validation, 377 test samples.
+  - **Imbalance**: _No Finding_ dominates. Many diseases have only a few training samples.
+- **Model Design**
+  - Backbone: **LLaMA II 7B** (language model)
+  - **Text features**
+    - Clinical reports tokenized and embedded into 4096-dim vectors with positional embeddings.
+  - **Image features**
+    - X-rays split into 16 patches ($32 \times 32$).
+    - Extracted via 2D convolution, projected into same 4096-dim space as text features.
+  - Architecture:
+    - Three transformer-based modules (text, vision, fusion).
+    - Fusion via cross-layers with three strategies:
+      - **Early Fusion** (parallel): text and vision fused at each level.
+      - **Late Fusion** (serial): fusion after modality-specific encoders.
+      - **Mixed Fusion**: combination of both parallel and serial.
+- **Training**
+  - Fine-tuning with **LoRA (Low-Rank Adaptation)** to reduce GPU memory cost and computation time while maintaining the same or better performance.
+  - Multiple LoRA configurations tested ($r = 2, 4, 8$).
+- **Results**
+  - Metric: **mean AUC (ROC)**
+  - Best:
+    - Early Fusion (Parallel, $r=2$): **0.971 AUC**
+    - Late Fusion (Serial, $r=2$): **0.967 AUC**
+  - Both outperform baseline TransCheX (**0.963 AUC**).
+- **Key Contributions**
+  - Demonstrates strong performance of transformer-based multimodal fusion for medical classification.
+  - Evaluates and compares early, late, and mixed fusion pipelines.
+  - Shows LoRA can efficiently fine-tune large models for small, domain-specific datasets.
+- **LitReview Relevance**
+  - Fits naturally in 2.3 Multimodal Fusion Methods (discussion of fusion strategies in vision-language models).
+  - Also relevant to 3. SOTA Classification Methods (demonstrates high AUC on OpenI dataset).
+  - Potential angle for 4. Research Gaps:
+    - Dataset imbalance (overrepresentation of _No Finding_).
+
+### Notes on [Med-Flamingo: a Multimodal Medical Few-shot Learner](https://proceedings.mlr.press/v225/moor23a)
+
+TODO
 
 [On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study](https://ieeexplore.ieee.org/document/10614428)
 
