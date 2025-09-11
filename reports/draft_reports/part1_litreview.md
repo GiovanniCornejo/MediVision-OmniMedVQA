@@ -315,7 +315,59 @@ Briefly introduce the scope of the literature review:
   - Also relevant to 3. SOTA Classification Baselines: provides few-shot/zero-shot performance benchmarks for chest X-ray and breast US tasks.
   - Relevant to 4. Research Gaps: highlights limitations of using natural-image-pretrained VLMs, variability in generated text descriptors, and need for curated descriptors or fine-tuned models.
 
-[MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/pdf/2210.10163)
+### Notes on [MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/pdf/2210.10163)
+
+- **Problem & Motivation**
+
+  - CLIP has achieved success in CV + NLP but is data-hungry (trained on 400M image-text pairs).
+  - Medical data is scarce and more fine-grained (e.g., pneumonia vs. consolidation).
+  - Challenges:
+    - Data insufficiency: limited paired medical image-text datasets.
+    - Subtle, domain-specific semantics: need to capture nuanced clinical meaning.
+  - Existing approaches:
+    - ConVIRT: joint vision-text contrastive pretraining.
+    - GLoRIA: models global + local interactions.
+  - Limitations: limited usable data, false negatives in contrastive pairs, decoupled image-text learning.
+
+- **Approach**
+  - Task: Improve data efficiency and semantic alignment in multimodal medical pretraining.
+  - Key idea: Decouple image-text contrastive learning using external medical knowledge.
+  - Framework:
+    - Knowledge extraction: use MetaMap + UMLS to extract clinical entities from reports and diagnosis labels → multi-hot semantic vectors.
+    - Vision & text encoders: BioClinicalBERT (text) + Swin Transformer (image). Project embeddings into shared space.
+    - Semantic matching loss: bridges embeddings using semantic similarity matrix, reduces false negatives.
+- **Components**
+  - Vision encoder: Swin Transformer (ImageNet-pretrained); ablation with ResNet-50.
+  - Text encoder: BioClinicalBERT.
+  - Semantic alignment: unify image-only, text-only, and paired datasets through semantic tags.
+  - Training setup:
+    - Data: MIMIC-CXR, CheXpert (for pretraining); COVID, RSNA (for eval).
+    - Image preprocessing: resize, crop, augment (flips, jitter, affine).
+    - Hyperparameters: LR 5e-5, batch size 100, epochs 10, warmup ratio 0.1.
+    - Hardware: single RTX 3090, ~8h training.
+- **Experiments**
+  - Datasets: CheXpert, MIMIC-CXR, COVID, RSNA Pneumonia.
+  - Baselines: Random ResNet-50, ImageNet ResNet-50, CLIP, ConVIRT, GLoRIA.
+  - Questions tested:
+    - Q1: Zero-shot classification performance? Outperforms all baselines by large margin. Zero-shot performance sometimes ≥ supervised models (e.g., COVID).
+    - Q2: Effect of knowledge-driven supervision? Data Efficiency. With only 20k samples, MedCLIP > GLoRIA (200k samples). Scaling up continues to improve without saturation.
+    - Q3: Label efficiency and fine-tuning performance? Best performance across datasets; zero-shot often competitive with fine-tuned supervised models
+    - Q4: Image-text retrieval quality? Best retrieval precision at multiple K, indicating richer embeddings.
+    - Q5: Learned embedding visualization? t-SNE embeddings show distinct clusters by pathology, unlike CLIP’s homogeneous clusters.
+- **Limitations**
+  - Relies on external knowledge extraction (MetaMap, UMLS); errors in entity detection, negation, and uncertainty handling still propagate.
+  - Prompt-based inference depends heavily on prompt quality.
+  - More pretraining data still needed for robustness.
+  - Not yet practical for deployment despite strong zero-shot performance.
+- **LitReview Relevance**
+  - Fits in Section 2.3 Multimodal Fusion Methods
+    - Unlike early/late fusion works (e.g., Gapp et al. 2024, Med-Flamingo 2023), MedCLIP focuses on contrastive pretraining with medical knowledge to reduce false negatives and maximize limited data.
+  - Also informs Section 3: SOTA Baselines
+    - Provides evidence of data efficiency and zero-shot performance advantages compared to ConVIRT and GLoRIA.
+  - Relevant Gaps Addressed (Section 4):
+    - Tackles data scarcity via external knowledge alignment.
+    - Improves generalizability by unifying image-only, text-only, and paired datasets.
+    - Partially addresses interpretability through explicit semantic alignment.
 
 [ViLMedic: aframework for research at the intersection of vision and language in medical AI](https://aclanthology.org/2022.acl-demo.3.pdf)
 
