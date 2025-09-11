@@ -143,13 +143,11 @@ Briefly introduce the scope of the literature review:
   - Visual USMLE: Med-Flamingo few-shot produced most clinically preferred answers. Zero-shot OpenFlamingo performed second best. Exact-match not informative due to long, paragraph-style answers.
   - Overall ranking: Med-Flamingo = 1.67, OpenFlamingo zero-shot = 2.33 (averaged across datasets).
 - **Limitations / Observations**
-
   - Models occasionally hallucinate or generate low-quality responses.
   - Few-shot prompts may leak info from in-context examples.
   - Pathology underrepresented in pretraining datasets.
   - Deduplication required to prevent pretraining-evaluation dataset leakage.
   - Longer Visual USMLE prompts necessitated summarization, sometimes reducing automated metric scores.
-
 - **Key Contributions / Insights**
   - Demonstrates few-shot multimodal generalization for medical VQA.
   - Introduces large-scale curated multimodal datasets for pretraining (MTB, PMC-OA).
@@ -163,6 +161,70 @@ Briefly introduce the scope of the literature review:
     - Importance of human evaluation alongside automated metrics in multimodal medical models.
 
 [On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study](https://ieeexplore.ieee.org/document/10614428)
+
+- **Task**
+  - Medical image classification across multiple domains (brain tumors, blood pathology, COVID chest X-rays).
+  - Evaluation of zero-shot and few-shot performance of large pretrained visual-language models (VLMs).
+- **Models Evaluated**
+  - OpenCLIP
+    - Open-source CLIP implementation.
+    - Image encoder (Vision Transformer / ConvNeXt) + text encoder (Transformer).
+    - Computes class probabilities via image-text embedding similarity.
+  - BiomedCLIP
+    - Domain-adapted CLIP for biomedical images.
+    - Trained on large-scale biomedical image-text datasets.
+    - Example: classifies meningioma, glioma, pituitary brain tumors with high accuracy.
+  - OpenFlamingo
+    - Open-source replication of Flamingo.
+    - Pretrained visual encoders + LLM with gated cross-attention.
+    - Supports few-shot prompting via demonstration images.
+  - LLaVA
+    - Visual-language assistant built on CLIP + LLaMA-2.
+    - Instruction-following, multimodal chat capability.-
+    - Supports single-step and multi-step chain-of-thought prompting.
+  - ChatGPT-4
+    - Transformer-based LLM with vision input.
+    - Generates text answers from image + text prompts.
+    - Supports single-step and multi-step reasoning prompts.
+- **Datasets**
+  - BTD (Brain Tumor Detection): 3,064 MRI slices (glioma, meningioma, pituitary). Binary task: glioma vs. meningioma/pituitary.
+  - ALL-IDB2: 260 microscopic images of blood cells for blast vs. normal classification.
+  - CX-Ray (COVID chest X-ray): Chest X-rays and CTs labeled for COVID positive/negative.
+- **Evaluation and Prompting**
+  - CNN-based baselines (CNN, ResNet-18) are trained; VLMs are evaluated zero-shot/few-shot without fine-tuning.
+  - Prompt engineering is crucial for VLMs:
+    - OpenCLIP/BiomedCLIP: text templates adapted per dataset.
+    - OpenFlamingo: few-shot demonstrations improve accuracy.
+    - LLaVA: single-step and multi-step chain-of-thought prompts.
+    - ChatGPT-4: multi-step prompting yields more consistent single-word predictions.
+  - Observation: Few-shot prompting improves accuracy in most cases; proper selection of demonstration images and prompt style is important.
+- **Results**
+  - CNNs outperform VLMs on benchmarked datasets (expected since CNNs are trained on the data).
+  - VLMs still perform impressively in zero/few-shot settings without additional training.
+  - Best performers per dataset (VLMs):
+    - BTD → BiomedCLIP
+    - ALL-IDB2 → ChatGPT-4 (single-step)
+    - CX-Ray → OpenFlamingo
+  - Overall, BiomedCLIP performs best on average across datasets.
+  - Few-shot prompting generally improves accuracy, but effects vary by dataset.
+- **Limitations**
+  - VLMs cannot fully replace domain-specific CNNs/ResNets for classification tasks.
+  - Performance depends heavily on data quality.
+  - Issues: hallucinations, uncertainty, privacy/security risks, limited domain-specific training.
+  - Prompt engineering is critical; suboptimal prompts reduce performance.
+  - Some tasks (e.g., segmentation) remain unexplored for VLMs.
+- **Discussion**
+  - VLMs show promise as pre-diagnostic assistants or for supporting human experts.
+  - Single VLMs can handle multiple tasks, reducing the need for multiple task-specific CNNs.
+  - Future work: extend VLMs to segmentation, more specialized medical imaging tasks.
+- **LitReview Relevance**
+  - Fits in 2.3 Multimodal Fusion / Vision-Language Models (evaluation of VLMs in medical imaging).
+  - Could also support 3. SOTA Classification Methods discussion:
+    - Shows zero/few-shot generalization capabilities versus task-specific CNNs.
+  - 4. Research Gaps:
+    - Need for prompt optimization and robust few-shot strategies.
+    - VLMs require domain-specific adaptation to outperform CNNs.
+    - Limited evaluation on segmentation, multi-modality beyond classification.
 
 [MMed-RAG: Versatile Multimodal RAG System for Medical Vision Language Models](https://arxiv.org/abs/2410.13085)
 
