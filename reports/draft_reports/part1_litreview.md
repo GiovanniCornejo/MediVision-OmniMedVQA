@@ -275,7 +275,45 @@ Briefly introduce the scope of the literature review:
   - Fits under 3. SOTA Multimodal Medical Models (factuality improvement, RAG methods).
   - Also relevant to 4. Research Gaps: shows how misalignment and hallucinations in multimodal LLMs can be addressed.
 
-[Few-shot medical image classification with simple shape and texture text descriptors using vision-language models](https://arxiv.org/pdf/2308.04005)
+### Notes on [Few-shot medical image classification with simple shape and texture text descriptors using vision-language models](https://arxiv.org/pdf/2308.04005)
+
+- **Task**
+  - Investigate the feasibility of using vision-language models (VLMs) for binary few-shot classification of medical images (chest X-rays and breast ultrasound images).
+  - Avoid the need to train VLMs on task-specific datasets of paired clinical reports and medical images.
+  - Use GPT-4 to generate simple text descriptors describing shape and texture for classification.
+- **Methods**
+  - Text Descriptor Generation:
+    - GPT-4 generates 20 descriptors per class related to shape/texture (e.g., “round shape”, “variable texture”).
+    - Designed to allow VLMs trained on natural images to classify medical images.
+  - Classification with VLMs:
+    - Images and descriptors input to VLM to compute text-image similarity scores.
+    - 0-shot classification uses all generated descriptors; class assigned based on similarity.
+  - n-shot Descriptor Selection:
+    - Filters out low-performing descriptors using a few labeled image pairs.
+    - Optimizes sum of scores to improve classification accuracy in few-shot settings.
+- **Datasets**
+  - Chest X-ray: 5856 cases (4273 pneumonia, 1583 normal).
+  - Breast Ultrasound (UDIAT): 159 images (107 benign, 52 malignant).
+  - Pre-processing: segmentation-based cropping for breast US; CLIP ViT-bigG/14 model used.
+- **Experiments and Analysis**
+  - Shape Assessment: Compared VLM outputs (“round shape”, “rectangular shape”) to segmentation-based features; moderate correlation observed (SCC: 0.62 for roundness, -0.26 for rectangularity).
+  - 0-shot Classification:
+    - Chest X-rays: Accuracy 0.79, AUC 0.88.
+    - Breast US: Accuracy 0.33, AUC 0.89; n-shot descriptor selection improved performance to ~0.72–0.81.
+  - n-shot Classification: Performance improves with number of labeled image pairs; descriptor selection critical for better accuracy.
+  - Descriptor Variability: Repeated GPT-4 generation 50 times; ensemble improves stability (AUC ~0.81).
+- **Results**
+  - VLMs with GPT-4-generated descriptors can distinguish pathologies in medical images without training on paired medical datasets.
+  - Descriptor selection significantly improves performance in few-shot scenarios.
+  - Shape assessment shows VLMs capture some but not all visual features reliably.
+- **Limitations**
+  - VLMs trained on natural images may not fully capture medical imaging features; fine-tuned VLMs could perform better.
+  - GPT-4-generated descriptors are not domain expert curated; descriptor quality affects classification.
+  - Performance lower than fully supervised networks (e.g., pneumonia AUC ~0.97 in previous studies).
+- **LitReview Relevance**
+  - Fits under 2.3 Multimodal Fusion Methods: leverages image + text descriptors for classification.
+  - Also relevant to 3. SOTA Classification Baselines: provides few-shot/zero-shot performance benchmarks for chest X-ray and breast US tasks.
+  - Relevant to 4. Research Gaps: highlights limitations of using natural-image-pretrained VLMs, variability in generated text descriptors, and need for curated descriptors or fine-tuned models.
 
 [MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/pdf/2210.10163)
 
