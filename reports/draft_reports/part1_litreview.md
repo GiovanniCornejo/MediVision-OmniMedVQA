@@ -318,7 +318,6 @@ Briefly introduce the scope of the literature review:
 ### Notes on [MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/pdf/2210.10163)
 
 - **Problem & Motivation**
-
   - CLIP has achieved success in CV + NLP but is data-hungry (trained on 400M image-text pairs).
   - Medical data is scarce and more fine-grained (e.g., pneumonia vs. consolidation).
   - Challenges:
@@ -328,7 +327,6 @@ Briefly introduce the scope of the literature review:
     - ConVIRT: joint vision-text contrastive pretraining.
     - GLoRIA: models global + local interactions.
   - Limitations: limited usable data, false negatives in contrastive pairs, decoupled image-text learning.
-
 - **Approach**
   - Task: Improve data efficiency and semantic alignment in multimodal medical pretraining.
   - Key idea: Decouple image-text contrastive learning using external medical knowledge.
@@ -430,18 +428,231 @@ Briefly introduce the scope of the literature review:
 
 [LLaVA-Med: Training a Large Language-and-Vision Assistant for Biomedicine in One Day](https://arxiv.org/pdf/2306.00890)
 
-[MMedAgent-RL: Optimizing Multi-Agent Collaboration for Multimodal Medical Reasoning](https://arxiv.org/pdf/2506.00555)
+- **Task**
+  - Extend LLaVA multimodal instruction-tuning to the biomedical domain.
+  - Train a biomedical visual instruction-following assistant for VQA and conversational tasks.
+- **Dataset**
+  - Biomedical visual instruction-following dataset created from PMC-15M (15M image–text pairs).
+  - GPT-4 used to generate diverse image–instruction–output triples.
+  - Stage 1: Filtered 600K image-caption pairs for feature alignment.
+  - Stage 2: Instruction-tuning dataset for multimodal Q&A.
+- **Model**
+  - LLaVA architecture with linear projection between vision encoder and language model.
+  - Vision encoder: BioMedCLIP or similar.
+  - LM: Vicuna or LLaVA.
+  - Two-stage training:
+    - Image–caption concept alignment.
+    - End-to-end instruction tuning with GPT-4 generated conversations.
+  - Curriculum learning improves domain adaptation.
+    **Training**
+  - Stage 1: Concept alignment.
+  - Stage 2: Instruction-tuning with varying dataset sizes (10K → 60K triples).
+  - Multi-GPU training: 8×A100 GPUs.
+  - Total training < 15 hours.
+- **Results**
+  - Outperforms LLaVA baseline consistently across biomedical VQA datasets:
+    - VQA-RAD (radiology), SLAKE (knowledge-rich bilingual), PathVQA.
+  - Stage 2 instruction tuning critical for performance.
+  - Larger LM size (7B → 13B) improves zero-shot and fine-tuned results.
+- **Limitations**
+  - Performance weaker on ambiguous open-ended datasets.
+  - Dataset construction relies heavily on GPT-4 synthetic triples.
+- **Key Contributions**
+  - Low-cost, generalizable biomedical multimodal instruction-tuning pipeline.
+  - Open-source dataset and code for biomedical VQA assistant.
+  - Demonstrates feasibility of training domain-specific multimodal LLMs in <1 day.
+- **LitReview Relevance**
+  - Section 2.3: Multimodal fusion and instruction tuning.
+  - Section 3: SOTA biomedical VQA performance.
+  - Section 4: Research gaps in domain-specific multimodal LLMs and rapid adaptation.
 
-[Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview](https://pmc.ncbi.nlm.nih.gov/articles/PMC12108733/)
+### Notes on [Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview](https://pmc.ncbi.nlm.nih.gov/articles/PMC12108733/)
 
-[Assessing the performance of zero-shot visual question answering in multimodal large language models for 12-lead ECG image interpretation](https://pmc.ncbi.nlm.nih.gov/articles/PMC11839599/)
+- **Task**
+  - Improve diagnostic accuracy by integrating imaging and non-imaging data in radiology.
+  - Address limitations of single-modality ML methods.
 
-[MedFuseNet: An attention-based multimodal deep learning model for visual question answering in the medical domain](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494920/)
+**Datasets**
 
-[Collaborative Modality Fusion for Mitigating Language Bias in Visual Question Answering](https://pmc.ncbi.nlm.nih.gov/articles/PMC10971294/)
+- Imaging: X-ray, CT, MRI, ultrasound, nuclear medicine.
+- Non-imaging: clinical reports, EHR, lab tests, ECG/EEG, patient histories.
+- Multimodal combinations: Image+Text, Image+Structured Data, Time-Series+Image.
 
-[Histopathology in focus: a review on explainable multi-modal approaches for breast cancer diagnosis](https://pmc.ncbi.nlm.nih.gov/articles/PMC11471683/)
+**Models**
 
-[A scoping review on multimodal deep learning in biomedical images and texts](https://pmc.ncbi.nlm.nih.gov/articles/PMC10591890/)
+- Fusion approaches:
+  - Early fusion (feature-level), joint fusion (latent space), late fusion (decision-level).
+- Transformer-based models: PixelBERT, VisualBERT, UNITER, LXMERT.
+- Representation learning: co-learning, latent-space alignment, weak/self-supervised learning.
+- Cross-modality retrieval: Align info across modalities for clinical decision support.
+  **Applications**
+- Disease classification: multimodal inputs outperform unimodal.
+- Visual Question Answering (VQA) with image+text input.
+- Fusion architectures like MIFTP improve feature integration and classification.
+  **Limitations**
+- Most datasets dominated by radiographs; need more CT/MRI.
+- Underutilized non-image data (labs, discharge notes, vitals).
+- Current work mostly bimodal; need for robust multimodal systems.
+- Evaluation practices inconsistent; unimodal baselines often missing.
+  **Key Contributions**
+- Comprehensive review of multimodal machine learning in radiology.
+- Highlights transformer-based multimodal fusion as most effective.
+- Identifies critical gaps: diverse datasets, non-imaging integration, standard evaluation.
+- **LitReview Relevance**
+  - Section 2.3: Fusion strategies and multimodal integration.
+  - Section 3: SOTA classification and VQA methods.
+  - Section 4: Research gaps in multimodal radiology ML.
+
+### Notes on [Assessing the performance of zero-shot visual question answering in multimodal large language models for 12-lead ECG image interpretation](https://pmc.ncbi.nlm.nih.gov/articles/PMC11839599/)
+
+- **Task**
+  - Evaluate zero-shot VQA capabilities of multimodal LLMs on 12-lead ECG images.
+  - Identify hallucinations and modality limitations in specialized medical tasks.
+- **Dataset**
+  - Primary: 928 12-lead ECG images (normal, abnormal heartbeat, MI, previous MI).
+  - Validation: PTB-XL dataset, 21,799 images.
+    **Models**
+  - ViLT (Vision-and-Language Transformer), Gemini Pro Vision.
+  - ChatGPT Plus: stepwise reasoning approach.
+  - Zero-shot prompting with direct answer mapping or natural language selection.
+- **Results**
+  - Models biased toward predicting “normal”.
+  - ChatGPT Plus: slightly higher F1-score, fewer hallucinations.
+  - Stepwise outputs sometimes contained errors despite correct answer.
+- **Limitations**
+  - Small dataset; limited lead sequence variation.
+  - Only 3 models tested; no healthcare-specific models included.
+  - Evaluation did not incorporate structured waveform data.
+- **Key Contributions**
+  - Highlights challenges of zero-shot VQA on specialized medical signal data.
+  - Emphasizes importance of careful evaluation and structured input.
+- **LitReview Relevance**
+  - Section 2.3: Zero-shot multimodal VQA limitations.
+  - Section 4: Research gaps in waveform/audio-based multimodal medical ML.
+
+### Notes on [MedFuseNet: An attention-based multimodal deep learning model for visual question answering in the medical domain](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494920/)
+
+- **Task**
+  - Answer clinically relevant questions from radiology images (VQA).
+  - Address fusion of visual and textual features while maintaining interpretability.
+- **Dataset**
+  - MED-VQA: 4,200 images; Modality (36), Plane (16), Organ (10) classes.
+  - PathVQA: Yes/no answers for pathological images.
+- **Model**
+  - Image encoder: ResNet-152 preferred.
+  - Question encoder: BERT preferred.
+  - Feature fusion: Multimodal Factorized Bilinear (MFB) pooling.
+  - Answer prediction: LSTM decoder for generative tasks; classification for categorical answers.
+  - Attention: Image attention, Image-Question co-attention. -**Results**
+  - MED-VQA accuracy: Modality 0.840, Plane 0.780, Organ 0.746.
+  - PathVQA accuracy: 0.636; simpler models work for yes/no.
+  - Outperforms baselines (BAN, SAN, hierarchical co-attention).
+  - Attention visualizations align with medically relevant regions.
+- **Limitations**
+  - Limited dataset size.
+  - Ablation: 18 feature-fusion combinations evaluated; best results depend on modality/task.
+- **Key Contributions**
+  - Attention-based multimodal fusion improves interpretability and performance.
+  - Handles classification and generative VQA tasks.
+- **LitReview Relevance**
+  - Section 2.3: Multimodal fusion methods.
+  - Section 3: SOTA VQA performance in medical imaging.
+
+### Notes on [Collaborative Modality Fusion for Mitigating Language Bias in Visual Question Answering](https://pmc.ncbi.nlm.nih.gov/articles/PMC10971294/)
+
+- **Task**
+  - Address modality biases in VQA (language or visual shortcuts).
+  - Ensure both modalities contribute effectively.
+- **Dataset**
+  - VQA v2, VQA-CP v2, VQA-VS (bias assessment).
+- **Model**
+  - CoD-VQA: Collaborative modality fusion framework.
+  - Key ideas:
+    - Identify “scarce” modality.
+    - Use enriched modality to enhance deprived modality.
+    - Multimodal fusion: early, late, hybrid, attention-based, tensor/bilinear pooling.
+  - Bias prediction and collaborative training reduce over-reliance on one modality.
+- **Results**
+  - Outperforms UpDn baseline (~20% on VQA-CP v2).
+  - Robust generalization to VQA v2.
+  - Qualitative: correctly localizes visual regions under bias.
+- **Limitations**
+  - Requires careful modality selection.
+  - Performance dependent on feature extractor (e.g., LXMERT).
+- **Key Contributions**
+  - Collaborative learning effectively mitigates language/visual biases without extra annotations.
+  - Promotes multimodal reasoning in biased datasets.
+- **LitReview Relevance**
+  - Section 2.3: Bias mitigation and multimodal fusion strategies.
+
+### Notes on [Histopathology in focus: a review on explainable multi-modal approaches for breast cancer diagnosis](https://pmc.ncbi.nlm.nih.gov/articles/PMC11471683/)
+
+- **Task**
+  - Comprehensive review of unimodal vs. multimodal computational pathology approaches for breast cancer diagnosis.
+  - Emphasis on diagnostic accuracy, generalizability, and explainability in histopathology.
+- **Unimodal Approaches**
+  - CNNs (VGG16, MobileNet, InceptionV3, ResNet-based ensembles).
+  - GAN-based methods for patch generation and normalization.
+  - MIL + XGBoost for patch aggregation.
+  - Achieved high accuracy (92–99%) but limited by overfitting, imbalance, and lack of complementary information.
+- **Multimodal Approaches**
+  - Fusion of histopathology images with molecular data, genomic profiles, clinical data.
+  - Fusion strategies: early, late, intermediate; attention-based (co-/cross-attention); graph neural networks; generative (VAE, diffusion).
+  - **Notable works**:
+    - Yan et al.: VGG16 + clinical autoencoder → 90.6% accuracy.
+    - PathLDM: text-guided latent diffusion for pathology images.
+    - GNN-based methods for survival prediction with multimodal inputs.
+    - Consistently outperformed unimodal methods.
+- **Limitations**
+  - Small datasets, poor subtype representation, variable staining/normalization.
+  - Computationally expensive.
+  - Lack of standardization in multimodal evaluation.
+- **Key Contributions**
+  - Demonstrates that multimodal methods improve robustness, generalization, and clinical relevance.
+  - Identifies integration of heterogeneous data (images + genomics + clinical) as critical.
+  - Emphasizes need for interpretability in multimodal pathology ML.
+
+**LitReview Relevance**
+
+- Section 2.1/2.2: Unimodal method comparison
+- Section 2.3: Multimodal fusion methods (image + omics + clinical data).
+- Section 3: Comparative performance benchmarks for unimodal vs. multimodal pathology.
+- Section 4: Research gaps in data integration, interpretability, and standardization.
+
+### Notes on [A scoping review on multimodal deep learning in biomedical images and texts](https://pmc.ncbi.nlm.nih.gov/articles/PMC10591890/)
+
+- **Task**
+  - Broad review of multimodal deep learning (MDL) methods for biomedical images + text.
+  - Covers downstream tasks: report generation, VQA, cross-modal retrieval, computer-aided diagnosis (CAD), and segmentation.
+- **Tasks and Datasets**
+  - Report Generation: MIMIC-CXR, CheXpert.
+  - VQA: VQA-MED (2018–2020), VQA-RAD, SLAKE, PathVQA.
+  - Cross-modal Retrieval: ROCO, ARCH.
+  - CAD / Segmentation: multimodal image-text tasks in oncology, pathology, radiology.
+- **Model Techniques**
+  - Image encoders: CNNs (ResNet, VGGNet), ViTs.
+  - Text encoders: LSTMs, GRUs, BERT.
+  - Fusion: attention mechanisms (SAN, BAN, MFB, MFH), contrastive learning, pre-training (CPRD).
+  - Knowledge integration: knowledge graphs, ontologies.
+  - Privacy-aware: federated learning, differential privacy.
+- **Findings**
+  - Multimodal models improve diagnostic accuracy and decision support.
+  - VQA: attention-based fusion boosts interpretability.
+  - Retrieval: contrastive learning enables alignment of image–text embeddings.
+  - CAD: multimodal systems outperform unimodal.
+- **Limitations**
+  - Limited annotated multimodal datasets (especially outside radiology).
+  - Few models integrate domain knowledge.
+  - Privacy concerns restrict dataset sharing.
+  - Sparse and inconsistent human evaluation.
+  - Fairness and interpretability underdeveloped.
+- **Key Contributions**
+  - Systematic mapping of multimodal tasks, models, and datasets.
+  - Identifies critical challenges: dataset scarcity, interpretability, fairness.
+  - Calls for standardized evaluation protocols.
+- **LitReview Relevance**
+  - Section 2.3: Fusion strategies and multimodal VQA/retrieval methods.
+  - Section 3: Report generation and CAD as emerging classification-related tasks.
+  - Section 4: Research gaps in datasets, interpretability, and fairness.
 
 (Will be auto-populated with `pandoc --citeproc` + `references.bib`.)

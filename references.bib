@@ -7,7 +7,7 @@
   primaryClass  = {cs.AI},
   doi       = {10.48550/arXiv.2412.01306},
   url       = {https://arxiv.org/abs/2412.01306},
-  note      = {Chest X-ray + clinical report multimodal disease classification using LLaMA II (7B) with vision-language fusion strategies (early/late/mixed) and LoRA fine-tuning. Achieves state-of-the-art mean AUC (0.971) on OpenI dataset. Relevant for multimodal classification task.}
+  note      = {Chest X-ray + report classification with LLaMA II and vision-language fusion (early/late/mixed) + LoRA fine-tuning. Achieves SOTA AUC (0.971) on OpenI. Relevant for multimodal classification.}
 }
 
 @InProceedings{Moor2023_MedFlamingo,
@@ -16,24 +16,19 @@
   booktitle = {Proceedings of the 3rd Machine Learning for Health Symposium},
   pages     = {353--367},
   year      = {2023},
-  editor    = {Stefan Hegselmann and Antonio Parziale and Divya Shanmugam and Shengpu Tang and Mercy Nyamewaa Asiedu and Serina Chang and Tom Hartvigsen and Harvineet Singh},
-  volume    = {225},
-  series    = {Proceedings of Machine Learning Research},
-  month     = {10 Dec},
   publisher = {PMLR},
-  pdf       = {https://proceedings.mlr.press/v225/moor23a/moor23a.pdf},
   url       = {https://proceedings.mlr.press/v225/moor23a.html},
-  note      = {Introduces Med-Flamingo, a few-shot multimodal medical VQA model built on Flamingo. Uses interleaved text-image pretraining (MTB, PMC-OA), supports in-context learning, and excels at generating clinically relevant open-ended answers. Highlights dataset creation, human evaluation, and limitations such as hallucinations and underrepresented pathology. Relevant for multimodal fusion, few-shot learning, and complex reasoning in medical AI.}
+  note      = {Introduces Med-Flamingo, a few-shot multimodal medical VQA model with interleaved text-image pretraining. Strong in-context learning, human evaluation, but limited by hallucinations and missing pathologies.}
 }
 
 @INPROCEEDINGS{Van2024_LargeVLMsMed,
   author    = {Minh–Hao Van and Prateek Verma and Xintao Wu},
   title     = {On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study},
-  booktitle = {2024 IEEE/ACM Conference on Connected Health: Applications, Systems and Engineering Technologies (CHASE)},
+  booktitle = {2024 IEEE/ACM CHASE},
   pages     = {172--176},
   year      = {2024},
   doi       = {10.1109/CHASE60773.2024.00029},
-  note      = {Evaluates pretrained visual-language models (BiomedCLIP, OpenCLIP, OpenFlamingo, LLaVA, ChatGPT-4) on medical imaging tasks (brain MRI, blood microscopy, COVID X-rays). Highlights zero-shot and few-shot performance, prompt engineering strategies, and limitations compared to CNN-based models. Relevant for multimodal VLM evaluation and prompt design in medical imaging.}
+  note      = {Benchmarks VLMs (BiomedCLIP, OpenCLIP, Flamingo, LLaVA, GPT-4) on brain MRI, microscopy, COVID X-rays. Compares zero-/few-shot, prompts, vs CNN baselines. Relevant for VLM eval.}
 }
 
 @misc{Xia2025_MMedRAG,
@@ -44,7 +39,7 @@
   archivePrefix = {arXiv},
   primaryClass  = {cs.LG},
   url       = {https://arxiv.org/abs/2410.13085},
-  note      = {Proposes MMed-RAG, a multimodal retrieval-augmented generation system for medical vision-language models (Med-LVLMs). Combines domain-aware retrieval, adaptive context selection, and preference fine-tuning to improve factuality, cross-modality alignment, and overall performance. Achieves significant gains on medical VQA and report generation tasks across radiology, pathology, and ophthalmology datasets. Relevant for enhancing factuality and mitigating misalignment in multimodal medical LLMs.}
+  note      = {Proposes MMed-RAG with domain-aware retrieval and context selection. Improves factuality and cross-modality alignment on medical VQA/report generation.}
 }
 
 @misc{Byra2023_FewShotVLM,
@@ -55,7 +50,7 @@
   archivePrefix = {arXiv},
   primaryClass = {cs.CV},
   url       = {https://arxiv.org/abs/2308.04005},
-  note      = {Explores few-shot medical image classification using vision-language models (CLIP ViT-bigG/14) with GPT-4-generated simple shape and texture descriptors. Evaluates chest X-rays and breast ultrasound images, showing that descriptor selection improves performance in n-shot settings. Relevant for few-shot and zero-shot multimodal medical classification tasks when paired datasets are limited.}
+  note      = {Uses GPT-4–generated shape/texture descriptors with CLIP for few-shot classification (X-ray, ultrasound). Improves n-shot performance where data is limited.}
 }
 
 @misc{Wang2022_MedCLIP,
@@ -66,19 +61,94 @@
   archivePrefix = {arXiv},
   primaryClass  = {cs.CV},
   url       = {https://arxiv.org/abs/2210.10163},
-  note      = {Introduces MedCLIP, a contrastive pretraining framework for medical image-text learning that leverages external knowledge (UMLS, MetaMap) to align image-only, text-only, and paired data. Achieves strong zero-shot classification and retrieval on chest X-ray datasets (CheXpert, MIMIC-CXR, COVID, RSNA), surpassing ConVIRT and GLoRIA with significantly less data. Relevant for multimodal contrastive learning and data-efficient pretraining.}
+  note      = {Contrastive pretraining with UMLS/MetaMap to align image, text, and paired data. Strong zero-shot classification/retrieval on chest X-rays, beating ConVIRT/GLoRIA with less data.}
 }
 
 @inbook{Lei2023_CLIP_Lung,
   title     = {CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction},
-  ISBN      = {9783031439902},
-  ISSN      = {1611-3349},
-  url       = {http://dx.doi.org/10.1007/978-3-031-43990-2_38},
-  DOI       = {10.1007/978-3-031-43990-2_38},
-  booktitle = {Medical Image Computing and Computer Assisted Intervention – MICCAI 2023},
-  publisher = {Springer Nature Switzerland},
+  booktitle = {MICCAI 2023},
   author    = {Lei, Yiming and Li, Zilong and Shen, Yan and Zhang, Junping and Shan, Hongming},
   year      = {2023},
   pages     = {403--412},
-  note      = {Proposes CLIP-Lung for lung nodule malignancy classification using CT scans and textual annotations. Introduces a channel-wise conditional prompt (CCP) module and textual knowledge-guided contrastive learning to align image, class, and attribute features. Achieves state-of-the-art performance on LIDC-IDRI compared to ordinal regression and CLIP/CoCoOp baselines. Relevant for multimodal medical classification with interpretability.}
+  note      = {Lung nodule malignancy prediction via CT + textual annotations. Uses channel-wise conditional prompt and knowledge-guided contrastive learning. SOTA on LIDC-IDRI.}
+}
+
+@misc{Li2023_LLaVA_Med,
+  title     = {LLaVA-Med: Training a Large Language-and-Vision Assistant for Biomedicine in One Day},
+  author    = {Li, Chunyuan and Wong, Cliff and Zhang, Sheng and Usuyama, Naoto and Liu, Haotian and Yang, Jianwei and Naumann, Tristan and Poon, Hoifung and Gao, Jianfeng},
+  year      = {2023},
+  eprint    = {2306.00890},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url       = {https://arxiv.org/abs/2306.00890},
+  note      = {Adapts LLaVA to biomedical domain using PMC-15M. Two-stage curriculum (concept alignment + instruction tuning). Strong biomedical VQA with low cost.}
+}
+
+@article{Haq2025_Advancements_MMML_Radiology,
+  title={Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview},
+  author={Haq, Imran Ullah and et al.},
+  journal={Bioengineering (Basel)},
+  volume={12},
+  number={5},
+  pages={477},
+  year={2025},
+  doi={10.3390/bioengineering12050477},
+  note={Survey of multimodal ML in radiology. Covers fusion (early/late/joint), representation learning, cross-modal retrieval. Applications: classification, VQA. Notes future directions incl. time-series, beyond bimodal.}
+}
+
+@article{Seki2025_ZeroShotECG,
+  title={Assessing zero-shot VQA in multimodal LLMs for 12-lead ECG interpretation},
+  author={Seki, Takumi and et al.},
+  journal={Frontiers in Cardiovascular Medicine},
+  volume={12},
+  pages={1458289},
+  year={2025},
+  doi={10.3389/fcvm.2025.1458289},
+  note={Tests ViLT, Gemini Pro Vision, ChatGPT on ECG VQA. Models biased toward “normal”; ChatGPT best but still hallucinates. Highlights evaluation and structured data needs.}
+}
+
+@article{Sharma2021_MedFuseNet,
+  title={MedFuseNet: An attention-based multimodal deep learning model for visual question answering in the medical domain},
+  author={Sharma, Divya and Purushotham, Sanjay and Reddy, Chandan K.},
+  journal={Scientific Reports},
+  volume={11},
+  number={1},
+  pages={19826},
+  year={2021},
+  doi={10.1038/s41598-021-98390-1},
+  note={Attention-based multimodal fusion for medical VQA. Achieves SOTA with interpretable attention visualizations.}
+}
+
+@article{Lu2024CoDVQA,
+  title={Collaborative Modality Fusion for Mitigating Language Bias in VQA},
+  author={Lu, Qi and Chen, Shuang and Zhu, Xiaowei},
+  journal={Journal of Imaging},
+  volume={10},
+  number={3},
+  pages={56},
+  year={2024},
+  doi={10.3390/jimaging10030056},
+  note={CoD-VQA: collaborative modality fusion reducing language/vision bias in VQA by allowing rich modalities to assist deprived ones.}
+}
+
+@article{Abdullakutty2024_MultiModalHistopathology,
+  title = {Histopathology in focus: a review on explainable multi-modal approaches for breast cancer diagnosis},
+  author = {Abdullakutty, Fathima and et al.},
+  journal = {Frontiers in Medicine},
+  volume = {11},
+  pages = {1450103},
+  year = {2024},
+  doi = {10.3389/fmed.2024.1450103},
+  note = {Review of multi-modal breast cancer histopathology methods. Compares unimodal vs multimodal (histopath, clinical, genomic). Discusses fusion strategies, imbalance issues, clinical applicability.}
+}
+
+@article{Sun2023_MultimodalReview,
+  title = {A scoping review on multimodal deep learning in biomedical images and texts},
+  author = {Sun, Zhi and et al.},
+  journal = {Journal of Biomedical Informatics},
+  volume = {146},
+  pages = {104482},
+  year = {2023},
+  doi = {10.1016/j.jbi.2023.104482},
+  note = {Review of multimodal deep learning in biomedicine (images + text). Covers report generation, VQA, retrieval, CAD. Notes challenges: imbalance, data scarcity, limited modalities, fairness/interpretability. Suggests dataset creation, knowledge integration, stronger evals.}
 }
