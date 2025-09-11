@@ -110,10 +110,57 @@ Briefly introduce the scope of the literature review:
   - Also relevant to 3. SOTA Classification Methods (demonstrates high AUC on OpenI dataset).
   - Potential angle for 4. Research Gaps:
     - Dataset imbalance (overrepresentation of _No Finding_).
+    - Potential for limited generalization due to small dataset size, despite good results.
 
 ### Notes on [Med-Flamingo: a Multimodal Medical Few-shot Learner](https://proceedings.mlr.press/v225/moor23a)
 
-TODO
+- **Task**
+  - Generative medical visual question answering (VQA) using interleaved text + image input.
+  - Focus on few-shot in-context learning: models can learn a new task from a few examples during prompting without parameter updates.
+- **Datasets**
+  - Pretraining datasets:
+    - MTB (Medical Textbook Dataset): 4,721 textbooks → 0.8M images + 584M tokens. Interleaved text and images. 95% train / 5% eval.
+    - PMC-OA: 1.6M image-caption pairs from PubMed Central Open Access. 1.3M train / 0.16M eval.
+  - Evaluation datasets:
+    - VQA-RAD: Radiology VQA dataset, custom train/test split to prevent leakage.
+    - PathVQA: Pathology VQA dataset.
+    - Visual USMLE: 618 complex, multimodal USMLE-style problems (images + vignettes + lab tables). Open-ended rather than multiple-choice.
+- **Model and Training**
+  - Initialized from OpenFlamingo-9B.
+  - ~8.3B total parameters (1.3B trainable, 7B frozen).
+  - Multi-GPU training: 8×80GB NVIDIA A100 with DeepSpeed ZeRO Stage 2.
+  - Training: 2,700 steps (~6.75 days), batch size 400, gradient accumulation 50.
+- **Evaluation & Metrics**
+  - Clinical evaluation score: human experts (0–10 scale).
+  - BERT similarity score (BERT-sim): automated textual similarity.
+  - Exact-match: fraction of generations exactly matching reference (strict, noisy).
+  - Baselines:
+    - MedVINT: LLaMA-based, visual instruction tuned. Zero-shot & fine-tuned (where dataset allowed).
+    - OpenFlamingo: general-domain VLM, zero-shot & few-shot.
+- **Results**
+  - VQA-RAD: Med-Flamingo few-shot improved clinical score by ~20% over best baseline.
+  - PathVQA: All models performed worse (limited pathology pretraining).
+  - Visual USMLE: Med-Flamingo few-shot produced most clinically preferred answers. Zero-shot OpenFlamingo performed second best. Exact-match not informative due to long, paragraph-style answers.
+  - Overall ranking: Med-Flamingo = 1.67, OpenFlamingo zero-shot = 2.33 (averaged across datasets).
+- **Limitations / Observations**
+
+  - Models occasionally hallucinate or generate low-quality responses.
+  - Few-shot prompts may leak info from in-context examples.
+  - Pathology underrepresented in pretraining datasets.
+  - Deduplication required to prevent pretraining-evaluation dataset leakage.
+  - Longer Visual USMLE prompts necessitated summarization, sometimes reducing automated metric scores.
+
+- **Key Contributions / Insights**
+  - Demonstrates few-shot multimodal generalization for medical VQA.
+  - Introduces large-scale curated multimodal datasets for pretraining (MTB, PMC-OA).
+  - Develops Visual USMLE benchmark, capturing cross-specialty reasoning and real-world clinical complexity.
+  - Shows human evaluation is critical; automated metrics alone may not align with clinical relevance.
+- **LitReview Relevance**
+  - Best suited for 2.3 Multimodal Fusion Methods (discussion of handling multimodal inputs and interleaving strategies).
+  - Also relevant to 3. SOTA Classification / VQA Methods, showing strong few-shot VQA performance on challenging benchmarks.
+  - Can contribute to 4. Research Gaps:
+    - Need for domain-specific pretraining data, especially in underrepresented fields like pathology.
+    - Importance of human evaluation alongside automated metrics in multimodal medical models.
 
 [On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study](https://ieeexplore.ieee.org/document/10614428)
 
