@@ -160,7 +160,7 @@ Briefly introduce the scope of the literature review:
     - Need for domain-specific pretraining data, especially in underrepresented fields like pathology.
     - Importance of human evaluation alongside automated metrics in multimodal medical models.
 
-[On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study](https://ieeexplore.ieee.org/document/10614428)
+### Notes on [On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study](https://ieeexplore.ieee.org/document/10614428)
 
 - **Task**
   - Medical image classification across multiple domains (brain tumors, blood pathology, COVID chest X-rays).
@@ -226,7 +226,54 @@ Briefly introduce the scope of the literature review:
     - VLMs require domain-specific adaptation to outperform CNNs.
     - Limited evaluation on segmentation, multi-modality beyond classification.
 
-[MMed-RAG: Versatile Multimodal RAG System for Medical Vision Language Models](https://arxiv.org/abs/2410.13085)
+### Notes on [MMed-RAG: Versatile Multimodal RAG System for Medical Vision Language Models](https://arxiv.org/abs/2410.13085)
+
+- **Task**
+  - Proposes a versatile multimodal RAG system (MMed-RAG) to improve factuality of medical vision-language models (Med-LVLMs).
+  - Targets key limitations in Med-LVLMs:
+    - Dataset scarcity for fine-tuning.
+    - Distribution gaps between training and deployment.
+    - Cross-modality and overall misalignment with ground truth.
+- **Key Components**
+  - Domain-Aware Retrieval Mechanism
+    - Uses a domain identification module to select the appropriate retriever for radiology, pathology, or ophthalmology images.
+    - Each domain-specific retriever trained with contrastive learning (image-text embeddings).
+  - Adaptive Retrieved Context Selection
+    - Dynamically selects the number of retrieved contexts (k) based on similarity scores.
+    - Reduces low-quality retrievals and hallucinations compared to fixed-k strategies.
+  - RAG-Based Preference Fine-Tuning (RAG-PT)
+    - Constructs preference pairs to improve:
+      - Cross-modality alignment: ensures model references the input image, not just retrieved knowledge.
+      - Overall alignment: mitigates interference from irrelevant retrieved contexts.
+    - Fine-tuning uses LoRA for efficiency.
+- **Datasets**
+  - Evaluated on five medical multimodal datasets:
+    - Radiology: MIMIC-CXR, IU-Xray, Harvard-FairVLMed
+    - Pathology: PMC-OA (pathology subset)
+    - Ophthalmology: Quilt-1M
+  - Tasks: medical VQA and report generation
+- **Training and Implementation**
+  - Backbone: LLaVA-Med-1.57B
+  - Vision encoder: ResNet-50; Text encoder: BioClinicalBERT
+  - Optimizer: AdamW (lr=1e-3, weight decay=1e-2), batch size=32, 360 epochs
+  - LoRA used for fine-tuning
+- **Results**
+  - VQA: +18.5% accuracy over original Med-LVLM
+  - Report generation: +69.1% improvement
+  - Component ablations:
+    - Domain-aware retrieval (DR): +16–18%
+    - Adaptive context selection (RCS): +6–19%
+    - RAG-PT: +16–37%
+  - Misalignment mitigation:
+    - Copy-Reference rate ↓ from 55.08% → 28.19%
+    - Over-Reliance rate ↓ from 43.31% → 8.38%
+  - Outperforms decoding-based and prior RAG-based baselines, as well as open-source Med-LVLMs (Med-Flamingo, MedVInT, RadFM).
+- **Key Contributions**
+  - Demonstrates that domain-aware retrieval + adaptive context + preference fine-tuning can significantly improve factuality and cross-modality alignment in Med-LVLMs.
+  - Provides a generalizable RAG framework for diverse medical domains and tasks.
+- **LitReview Relevance**
+  - Fits under 3. SOTA Multimodal Medical Models (factuality improvement, RAG methods).
+  - Also relevant to 4. Research Gaps: shows how misalignment and hallucinations in multimodal LLMs can be addressed.
 
 [Few-shot medical image classification with simple shape and texture text descriptors using vision-language models](https://arxiv.org/pdf/2308.04005)
 
