@@ -369,9 +369,64 @@ Briefly introduce the scope of the literature review:
     - Improves generalizability by unifying image-only, text-only, and paired datasets.
     - Partially addresses interpretability through explicit semantic alignment.
 
-[ViLMedic: aframework for research at the intersection of vision and language in medical AI](https://aclanthology.org/2022.acl-demo.3.pdf)
+### Notes on [CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction](https://arxiv.org/pdf/2304.08013)
 
-[CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction](https://arxiv.org/pdf/2304.08013)
+- **Motivation**
+  - Traditional ordinal regression methods (Poisson, NSB, UDM, CORF) are used for benign–unsure–malignant classification.
+  - Challenge: they struggle with visually similar samples with adjacent rank labels.
+    - Example: nodules with malignancy scores 275 vs. 475 appear closer than 25 vs. 475.
+  - Observation: text attributes annotated by radiologists (subtlety, sphericity, margin, lobulation, etc.) provide clinically relevant distinctions for these hard cases.
+  - Idea: use textual attributes to guide the learning of visual features.
+- **Proposed Method: CLIP-Lung**
+  - Task: Leverage clinical textual knowledge to improve lung nodule malignancy prediction.
+  - Core Components:
+    - Channel-wise Conditional Prompt (CCP) Module
+      - Inspired by CoCoOp.
+      - Builds learnable text descriptions (class + attribute level).
+      - Generates instance-specific prompts conditioned on grouped feature maps.
+      - Produces more explainable attention maps (via Grad-CAM).
+    - Textual Knowledge-Guided Contrastive Learning
+      - Three levels of alignment:
+        - Image–class alignment (LIC): cross-entropy loss on predicted class probabilities.
+        - Image–attribute alignment (LIA): InfoNCE loss to correlate image features with specific attributes.
+        - Class–attribute alignment (LCA): ensures consistency between class and attribute embeddings (avoids mismatched latent spaces).
+    - Instance-Specific Attribute Weighting
+      - LIDC-IDRI dataset includes eight annotated attributes (rated 1–5, except calcification 1–6).
+      - Pre-trained text encoder generates shared text feature vectors.
+      - Instance-specific weighting distinguishes nodules by normalizing their annotated values.
+- **Dataset and Experimental Setup**
+  - Dataset: LIDC-IDRI (low-dose CT, 1,010 patients).
+  - Nodules labeled with malignancy scores (1–5).
+  - Cropped/resized into 32×32×32 volumes.
+  - Sub-datasets:
+    - LIDC-A: benign, unsure, malignant (all in train/test).
+    - LIDC-B: 3 classes in training; test set only benign + malignant.
+    - LIDC-C: benign + malignant only.
+  - Implementation:
+    - Image encoder: ResNet-18 (randomly initialized).
+    - Text encoder: CLIP ViT-B/16 (frozen).
+    - Optimizer: SGD w/ momentum, cosine decay LR.
+    - Losses: CE, InfoNCE, cross-modal alignment.
+    - Hardware: NVIDIA A100.
+    - Reported metrics: recall, F1-score (mean across 5-fold splits).
+- **Results**
+  - Performance
+    - CLIP-Lung outperforms ordinal regression methods and baselines (CLIP, CoCoOp).
+    - Stronger recalls for benign & malignant classes; slightly weaker for unsure.
+      - Likely due to overlapping/indistinguishable attributes.
+    - On LIDC-B and LIDC-C: strong overall performance, though recall of benign class is weaker (text features biased toward malignant nodules).
+  - Visualizations
+    - t-SNE + Grad-CAM show CLIP-Lung produces more compact latent spaces and better attention maps.
+    - Captures clinical attributes (e.g., spiculation, lobulation) more effectively than CLIP or CoCoOp.
+  - Ablation Studies
+    - LIC + LIA improves performance on LIDC-A.
+    - LIA (image–attribute) is most critical for latent space rectification.
+    - LIC + LIA > LIA + LCA, since LCA regularizes indirectly.
+- **Contributions**
+  - Proposed CLIP-Lung, integrating textual knowledge into image encoding for lung nodule classification.
+  - Designed a CCP module for attribute-conditioned prompts → more explainable attention maps.
+  - Developed text-guided contrastive learning aligning images, classes, and attributes simultaneously.
+  - Demonstrated state-of-the-art performance vs. both ordinal regression and multimodal baselines.
 
 [LLaVA-Med: Training a Large Language-and-Vision Assistant for Biomedicine in One Day](https://arxiv.org/pdf/2306.00890)
 

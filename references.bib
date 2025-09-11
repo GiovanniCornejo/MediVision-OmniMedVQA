@@ -10,7 +10,6 @@
   note      = {Chest X-ray + clinical report multimodal disease classification using LLaMA II (7B) with vision-language fusion strategies (early/late/mixed) and LoRA fine-tuning. Achieves state-of-the-art mean AUC (0.971) on OpenI dataset. Relevant for multimodal classification task.}
 }
 
-
 @InProceedings{Moor2023_MedFlamingo,
   title     = {Med-Flamingo: a Multimodal Medical Few-shot Learner},
   author    = {Michael Moor and Qian Huang and Shirley Wu and Michihiro Yasunaga and Yash Dalmia and Jure Leskovec and Cyril Zakka and Eduardo Pontes Reis and Pranav Rajpurkar},
@@ -68,4 +67,18 @@
   primaryClass  = {cs.CV},
   url       = {https://arxiv.org/abs/2210.10163},
   note      = {Introduces MedCLIP, a contrastive pretraining framework for medical image-text learning that leverages external knowledge (UMLS, MetaMap) to align image-only, text-only, and paired data. Achieves strong zero-shot classification and retrieval on chest X-ray datasets (CheXpert, MIMIC-CXR, COVID, RSNA), surpassing ConVIRT and GLoRIA with significantly less data. Relevant for multimodal contrastive learning and data-efficient pretraining.}
+}
+
+@inbook{Lei2023_CLIP_Lung,
+  title     = {CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction},
+  ISBN      = {9783031439902},
+  ISSN      = {1611-3349},
+  url       = {http://dx.doi.org/10.1007/978-3-031-43990-2_38},
+  DOI       = {10.1007/978-3-031-43990-2_38},
+  booktitle = {Medical Image Computing and Computer Assisted Intervention – MICCAI 2023},
+  publisher = {Springer Nature Switzerland},
+  author    = {Lei, Yiming and Li, Zilong and Shen, Yan and Zhang, Junping and Shan, Hongming},
+  year      = {2023},
+  pages     = {403--412},
+  note      = {Proposes CLIP-Lung for lung nodule malignancy classification using CT scans and textual annotations. Introduces a channel-wise conditional prompt (CCP) module and textual knowledge-guided contrastive learning to align image, class, and attribute features. Achieves state-of-the-art performance on LIDC-IDRI compared to ordinal regression and CLIP/CoCoOp baselines. Relevant for multimodal medical classification with interpretability.}
 }
