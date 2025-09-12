@@ -34,14 +34,9 @@ For example, Gapp et al. fuse chest X-ray and report embeddings using a LLaMA-II
 
 Large VLMs such as BiomedCLIP and OpenFlamingo achieve strong zero-/few-shot performance without fine-tuning [@Van2024_LargeVLMsMed], and Med-Flamingo adapts quickly to new radiology tasks [@Moor2023_MedFlamingo]. These strategies use complementary data to boost accuracy, although they require carefully aligned training data and can be sensitive to modality-specific noise.
 
-#### Contrastive Representation Learning
+#### Contrastive Learning
 
-Contrastive learning approaches explicitly align image and text embeddings. For example:
-
-- Wang et al. [@Wang2022_MedCLIP] show that contrastively training on chest X-ray images and their reports improves downstream classification performance compared to older self-supervised approaches. Contrastive pretraining also provides a strong initialization for zero- or few-shot adaptation.
-- Lei et al. introduce CLIP-Lung, which employs contrastive learning with radiology prompt templates and disease-specific attributes to enhance lung nodule malignancy prediction, achieving state-of-the-art performance on the LIDC-IDRI dataset [@Lei2023_CLIP_Lung].
-
-These methods help models learn meaningful cross-modal embeddings even when labeled examples are scarce, complementing the fusion strategies described above and supporting multimodal classification.
+Contrastive learning approaches align image and text embeddings. Wang et al. demonstrate improved downstream classification with contrastive training on chest X-rays and reports [@Wang2022_MedCLIP]. Lei et al. introduce CLIP-Lung uses radiology prompts and disease-specific attributes for lung nodule malignancy prediction, achieving SOTA performance on LIDC-IDRI [@Lei2023_CLIP_Lung]. These methods also provide a strong initialization for zero- or few-shot adaptation and help models learn meaningful cross-modal embeddings even when labeled examples are scarce.
 
 #### Datasets and Classification Tasks
 
