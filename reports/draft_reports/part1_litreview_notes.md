@@ -1,0 +1,588 @@
+### Notes on [Multimodal Medical Disease Classification with LLaMA II](https://arxiv.org/abs/2412.01306)
+
+- **Task**
+  - Disease classification from chest X-rays and clinical reports (multimodal input).
+- **Dataset (OpenI)**
+  - 2D chest X-rays ($256 \times 256$) paired with clinical reports.
+  - Labels: 14 disease classes (multi-label classification).
+    - Includes: _Atelectasis, Cardiomegaly, Consolidation, Edema, Pleural Effusion, Pneumonia, Pneumothorax, Support-Devices etc._
+    - _No Finding_ acts as the mutually exclusive class.
+  - Split: 3199 training, 101 validation, 377 test samples.
+  - **Imbalance**: _No Finding_ dominates. Many diseases have only a few training samples.
+- **Model Design**
+  - Backbone: **LLaMA II 7B** (language model)
+  - **Text features**
+    - Clinical reports tokenized and embedded into 4096-dim vectors with positional embeddings.
+  - **Image features**
+    - X-rays split into 16 patches ($32 \times 32$).
+    - Extracted via 2D convolution, projected into same 4096-dim space as text features.
+  - Architecture:
+    - Three transformer-based modules (text, vision, fusion).
+    - Fusion via cross-layers with three strategies:
+      - **Early Fusion** (parallel): text and vision fused at each level.
+      - **Late Fusion** (serial): fusion after modality-specific encoders.
+      - **Mixed Fusion**: combination of both parallel and serial.
+- **Training**
+  - Fine-tuning with **LoRA (Low-Rank Adaptation)** to reduce GPU memory cost and computation time while maintaining the same or better performance.
+  - Multiple LoRA configurations tested ($r = 2, 4, 8$).
+- **Results**
+  - Metric: **mean AUC (ROC)**
+  - Best:
+    - Early Fusion (Parallel, $r=2$): **0.971 AUC**
+    - Late Fusion (Serial, $r=2$): **0.967 AUC**
+  - Both outperform baseline TransCheX (**0.963 AUC**).
+- **Key Contributions**
+  - Demonstrates strong performance of transformer-based multimodal fusion for medical classification.
+  - Evaluates and compares early, late, and mixed fusion pipelines.
+  - Shows LoRA can efficiently fine-tune large models for small, domain-specific datasets.
+- **LitReview Relevance**
+  - Fits naturally in 2.3 Multimodal Fusion Methods (discussion of fusion strategies in vision-language models).
+  - Also relevant to 3. SOTA Classification Methods (demonstrates high AUC on OpenI dataset).
+  - Potential angle for 4. Research Gaps:
+    - Dataset imbalance (overrepresentation of _No Finding_).
+    - Potential for limited generalization due to small dataset size, despite good results.
+
+### Notes on [Med-Flamingo: a Multimodal Medical Few-shot Learner](https://proceedings.mlr.press/v225/moor23a)
+
+- **Task**
+  - Generative medical visual question answering (VQA) using interleaved text + image input.
+  - Focus on few-shot in-context learning: models can learn a new task from a few examples during prompting without parameter updates.
+- **Datasets**
+  - Pretraining datasets:
+    - MTB (Medical Textbook Dataset): 4,721 textbooks → 0.8M images + 584M tokens. Interleaved text and images. 95% train / 5% eval.
+    - PMC-OA: 1.6M image-caption pairs from PubMed Central Open Access. 1.3M train / 0.16M eval.
+  - Evaluation datasets:
+    - VQA-RAD: Radiology VQA dataset, custom train/test split to prevent leakage.
+    - PathVQA: Pathology VQA dataset.
+    - Visual USMLE: 618 complex, multimodal USMLE-style problems (images + vignettes + lab tables). Open-ended rather than multiple-choice.
+- **Model and Training**
+  - Initialized from OpenFlamingo-9B.
+  - ~8.3B total parameters (1.3B trainable, 7B frozen).
+  - Multi-GPU training: 8×80GB NVIDIA A100 with DeepSpeed ZeRO Stage 2.
+  - Training: 2,700 steps (~6.75 days), batch size 400, gradient accumulation 50.
+- **Evaluation & Metrics**
+  - Clinical evaluation score: human experts (0–10 scale).
+  - BERT similarity score (BERT-sim): automated textual similarity.
+  - Exact-match: fraction of generations exactly matching reference (strict, noisy).
+  - Baselines:
+    - MedVINT: LLaMA-based, visual instruction tuned. Zero-shot & fine-tuned (where dataset allowed).
+    - OpenFlamingo: general-domain VLM, zero-shot & few-shot.
+- **Results**
+  - VQA-RAD: Med-Flamingo few-shot improved clinical score by ~20% over best baseline.
+  - PathVQA: All models performed worse (limited pathology pretraining).
+  - Visual USMLE: Med-Flamingo few-shot produced most clinically preferred answers. Zero-shot OpenFlamingo performed second best. Exact-match not informative due to long, paragraph-style answers.
+  - Overall ranking: Med-Flamingo = 1.67, OpenFlamingo zero-shot = 2.33 (averaged across datasets).
+- **Limitations / Observations**
+  - Models occasionally hallucinate or generate low-quality responses.
+  - Few-shot prompts may leak info from in-context examples.
+  - Pathology underrepresented in pretraining datasets.
+  - Deduplication required to prevent pretraining-evaluation dataset leakage.
+  - Longer Visual USMLE prompts necessitated summarization, sometimes reducing automated metric scores.
+- **Key Contributions / Insights**
+  - Demonstrates few-shot multimodal generalization for medical VQA.
+  - Introduces large-scale curated multimodal datasets for pretraining (MTB, PMC-OA).
+  - Develops Visual USMLE benchmark, capturing cross-specialty reasoning and real-world clinical complexity.
+  - Shows human evaluation is critical; automated metrics alone may not align with clinical relevance.
+- **LitReview Relevance**
+  - Best suited for 2.3 Multimodal Fusion Methods (discussion of handling multimodal inputs and interleaving strategies).
+  - Also relevant to 3. SOTA Classification / VQA Methods, showing strong few-shot VQA performance on challenging benchmarks.
+  - Can contribute to 4. Research Gaps:
+    - Need for domain-specific pretraining data, especially in underrepresented fields like pathology.
+    - Importance of human evaluation alongside automated metrics in multimodal medical models.
+
+### Notes on [On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study](https://ieeexplore.ieee.org/document/10614428)
+
+- **Task**
+  - Medical image classification across multiple domains (brain tumors, blood pathology, COVID chest X-rays).
+  - Evaluation of zero-shot and few-shot performance of large pretrained visual-language models (VLMs).
+- **Models Evaluated**
+  - OpenCLIP
+    - Open-source CLIP implementation.
+    - Image encoder (Vision Transformer / ConvNeXt) + text encoder (Transformer).
+    - Computes class probabilities via image-text embedding similarity.
+  - BiomedCLIP
+    - Domain-adapted CLIP for biomedical images.
+    - Trained on large-scale biomedical image-text datasets.
+    - Example: classifies meningioma, glioma, pituitary brain tumors with high accuracy.
+  - OpenFlamingo
+    - Open-source replication of Flamingo.
+    - Pretrained visual encoders + LLM with gated cross-attention.
+    - Supports few-shot prompting via demonstration images.
+  - LLaVA
+    - Visual-language assistant built on CLIP + LLaMA-2.
+    - Instruction-following, multimodal chat capability.-
+    - Supports single-step and multi-step chain-of-thought prompting.
+  - ChatGPT-4
+    - Transformer-based LLM with vision input.
+    - Generates text answers from image + text prompts.
+    - Supports single-step and multi-step reasoning prompts.
+- **Datasets**
+  - BTD (Brain Tumor Detection): 3,064 MRI slices (glioma, meningioma, pituitary). Binary task: glioma vs. meningioma/pituitary.
+  - ALL-IDB2: 260 microscopic images of blood cells for blast vs. normal classification.
+  - CX-Ray (COVID chest X-ray): Chest X-rays and CTs labeled for COVID positive/negative.
+- **Evaluation and Prompting**
+  - CNN-based baselines (CNN, ResNet-18) are trained; VLMs are evaluated zero-shot/few-shot without fine-tuning.
+  - Prompt engineering is crucial for VLMs:
+    - OpenCLIP/BiomedCLIP: text templates adapted per dataset.
+    - OpenFlamingo: few-shot demonstrations improve accuracy.
+    - LLaVA: single-step and multi-step chain-of-thought prompts.
+    - ChatGPT-4: multi-step prompting yields more consistent single-word predictions.
+  - Observation: Few-shot prompting improves accuracy in most cases; proper selection of demonstration images and prompt style is important.
+- **Results**
+  - CNNs outperform VLMs on benchmarked datasets (expected since CNNs are trained on the data).
+  - VLMs still perform impressively in zero/few-shot settings without additional training.
+  - Best performers per dataset (VLMs):
+    - BTD → BiomedCLIP
+    - ALL-IDB2 → ChatGPT-4 (single-step)
+    - CX-Ray → OpenFlamingo
+  - Overall, BiomedCLIP performs best on average across datasets.
+  - Few-shot prompting generally improves accuracy, but effects vary by dataset.
+- **Limitations**
+  - VLMs cannot fully replace domain-specific CNNs/ResNets for classification tasks.
+  - Performance depends heavily on data quality.
+  - Issues: hallucinations, uncertainty, privacy/security risks, limited domain-specific training.
+  - Prompt engineering is critical; suboptimal prompts reduce performance.
+  - Some tasks (e.g., segmentation) remain unexplored for VLMs.
+- **Discussion**
+  - VLMs show promise as pre-diagnostic assistants or for supporting human experts.
+  - Single VLMs can handle multiple tasks, reducing the need for multiple task-specific CNNs.
+  - Future work: extend VLMs to segmentation, more specialized medical imaging tasks.
+- **LitReview Relevance**
+  - Fits in 2.3 Multimodal Fusion / Vision-Language Models (evaluation of VLMs in medical imaging).
+  - Could also support 3. SOTA Classification Methods discussion:
+    - Shows zero/few-shot generalization capabilities versus task-specific CNNs.
+  - 4. Research Gaps:
+    - Need for prompt optimization and robust few-shot strategies.
+    - VLMs require domain-specific adaptation to outperform CNNs.
+    - Limited evaluation on segmentation, multi-modality beyond classification.
+
+### Notes on [MMed-RAG: Versatile Multimodal RAG System for Medical Vision Language Models](https://arxiv.org/abs/2410.13085)
+
+- **Task**
+  - Proposes a versatile multimodal RAG system (MMed-RAG) to improve factuality of medical vision-language models (Med-LVLMs).
+  - Targets key limitations in Med-LVLMs:
+    - Dataset scarcity for fine-tuning.
+    - Distribution gaps between training and deployment.
+    - Cross-modality and overall misalignment with ground truth.
+- **Key Components**
+  - Domain-Aware Retrieval Mechanism
+    - Uses a domain identification module to select the appropriate retriever for radiology, pathology, or ophthalmology images.
+    - Each domain-specific retriever trained with contrastive learning (image-text embeddings).
+  - Adaptive Retrieved Context Selection
+    - Dynamically selects the number of retrieved contexts (k) based on similarity scores.
+    - Reduces low-quality retrievals and hallucinations compared to fixed-k strategies.
+  - RAG-Based Preference Fine-Tuning (RAG-PT)
+    - Constructs preference pairs to improve:
+      - Cross-modality alignment: ensures model references the input image, not just retrieved knowledge.
+      - Overall alignment: mitigates interference from irrelevant retrieved contexts.
+    - Fine-tuning uses LoRA for efficiency.
+- **Datasets**
+  - Evaluated on five medical multimodal datasets:
+    - Radiology: MIMIC-CXR, IU-Xray, Harvard-FairVLMed
+    - Pathology: PMC-OA (pathology subset)
+    - Ophthalmology: Quilt-1M
+  - Tasks: medical VQA and report generation
+- **Training and Implementation**
+  - Backbone: LLaVA-Med-1.57B
+  - Vision encoder: ResNet-50; Text encoder: BioClinicalBERT
+  - Optimizer: AdamW (lr=1e-3, weight decay=1e-2), batch size=32, 360 epochs
+  - LoRA used for fine-tuning
+- **Results**
+  - VQA: +18.5% accuracy over original Med-LVLM
+  - Report generation: +69.1% improvement
+  - Component ablations:
+    - Domain-aware retrieval (DR): +16–18%
+    - Adaptive context selection (RCS): +6–19%
+    - RAG-PT: +16–37%
+  - Misalignment mitigation:
+    - Copy-Reference rate ↓ from 55.08% → 28.19%
+    - Over-Reliance rate ↓ from 43.31% → 8.38%
+  - Outperforms decoding-based and prior RAG-based baselines, as well as open-source Med-LVLMs (Med-Flamingo, MedVInT, RadFM).
+- **Key Contributions**
+  - Demonstrates that domain-aware retrieval + adaptive context + preference fine-tuning can significantly improve factuality and cross-modality alignment in Med-LVLMs.
+  - Provides a generalizable RAG framework for diverse medical domains and tasks.
+- **LitReview Relevance**
+  - Fits under 3. SOTA Multimodal Medical Models (factuality improvement, RAG methods).
+  - Also relevant to 4. Research Gaps: shows how misalignment and hallucinations in multimodal LLMs can be addressed.
+
+### Notes on [Few-shot medical image classification with simple shape and texture text descriptors using vision-language models](https://arxiv.org/pdf/2308.04005)
+
+- **Task**
+  - Investigate the feasibility of using vision-language models (VLMs) for binary few-shot classification of medical images (chest X-rays and breast ultrasound images).
+  - Avoid the need to train VLMs on task-specific datasets of paired clinical reports and medical images.
+  - Use GPT-4 to generate simple text descriptors describing shape and texture for classification.
+- **Methods**
+  - Text Descriptor Generation:
+    - GPT-4 generates 20 descriptors per class related to shape/texture (e.g., “round shape”, “variable texture”).
+    - Designed to allow VLMs trained on natural images to classify medical images.
+  - Classification with VLMs:
+    - Images and descriptors input to VLM to compute text-image similarity scores.
+    - 0-shot classification uses all generated descriptors; class assigned based on similarity.
+  - n-shot Descriptor Selection:
+    - Filters out low-performing descriptors using a few labeled image pairs.
+    - Optimizes sum of scores to improve classification accuracy in few-shot settings.
+- **Datasets**
+  - Chest X-ray: 5856 cases (4273 pneumonia, 1583 normal).
+  - Breast Ultrasound (UDIAT): 159 images (107 benign, 52 malignant).
+  - Pre-processing: segmentation-based cropping for breast US; CLIP ViT-bigG/14 model used.
+- **Experiments and Analysis**
+  - Shape Assessment: Compared VLM outputs (“round shape”, “rectangular shape”) to segmentation-based features; moderate correlation observed (SCC: 0.62 for roundness, -0.26 for rectangularity).
+  - 0-shot Classification:
+    - Chest X-rays: Accuracy 0.79, AUC 0.88.
+    - Breast US: Accuracy 0.33, AUC 0.89; n-shot descriptor selection improved performance to ~0.72–0.81.
+  - n-shot Classification: Performance improves with number of labeled image pairs; descriptor selection critical for better accuracy.
+  - Descriptor Variability: Repeated GPT-4 generation 50 times; ensemble improves stability (AUC ~0.81).
+- **Results**
+  - VLMs with GPT-4-generated descriptors can distinguish pathologies in medical images without training on paired medical datasets.
+  - Descriptor selection significantly improves performance in few-shot scenarios.
+  - Shape assessment shows VLMs capture some but not all visual features reliably.
+- **Limitations**
+  - VLMs trained on natural images may not fully capture medical imaging features; fine-tuned VLMs could perform better.
+  - GPT-4-generated descriptors are not domain expert curated; descriptor quality affects classification.
+  - Performance lower than fully supervised networks (e.g., pneumonia AUC ~0.97 in previous studies).
+- **LitReview Relevance**
+  - Fits under 2.3 Multimodal Fusion Methods: leverages image + text descriptors for classification.
+  - Also relevant to 3. SOTA Classification Baselines: provides few-shot/zero-shot performance benchmarks for chest X-ray and breast US tasks.
+  - Relevant to 4. Research Gaps: highlights limitations of using natural-image-pretrained VLMs, variability in generated text descriptors, and need for curated descriptors or fine-tuned models.
+
+### Notes on [MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/pdf/2210.10163)
+
+- **Problem & Motivation**
+  - CLIP has achieved success in CV + NLP but is data-hungry (trained on 400M image-text pairs).
+  - Medical data is scarce and more fine-grained (e.g., pneumonia vs. consolidation).
+  - Challenges:
+    - Data insufficiency: limited paired medical image-text datasets.
+    - Subtle, domain-specific semantics: need to capture nuanced clinical meaning.
+  - Existing approaches:
+    - ConVIRT: joint vision-text contrastive pretraining.
+    - GLoRIA: models global + local interactions.
+  - Limitations: limited usable data, false negatives in contrastive pairs, decoupled image-text learning.
+- **Approach**
+  - Task: Improve data efficiency and semantic alignment in multimodal medical pretraining.
+  - Key idea: Decouple image-text contrastive learning using external medical knowledge.
+  - Framework:
+    - Knowledge extraction: use MetaMap + UMLS to extract clinical entities from reports and diagnosis labels → multi-hot semantic vectors.
+    - Vision & text encoders: BioClinicalBERT (text) + Swin Transformer (image). Project embeddings into shared space.
+    - Semantic matching loss: bridges embeddings using semantic similarity matrix, reduces false negatives.
+- **Components**
+  - Vision encoder: Swin Transformer (ImageNet-pretrained); ablation with ResNet-50.
+  - Text encoder: BioClinicalBERT.
+  - Semantic alignment: unify image-only, text-only, and paired datasets through semantic tags.
+  - Training setup:
+    - Data: MIMIC-CXR, CheXpert (for pretraining); COVID, RSNA (for eval).
+    - Image preprocessing: resize, crop, augment (flips, jitter, affine).
+    - Hyperparameters: LR 5e-5, batch size 100, epochs 10, warmup ratio 0.1.
+    - Hardware: single RTX 3090, ~8h training.
+- **Experiments**
+  - Datasets: CheXpert, MIMIC-CXR, COVID, RSNA Pneumonia.
+  - Baselines: Random ResNet-50, ImageNet ResNet-50, CLIP, ConVIRT, GLoRIA.
+  - Questions tested:
+    - Q1: Zero-shot classification performance? Outperforms all baselines by large margin. Zero-shot performance sometimes ≥ supervised models (e.g., COVID).
+    - Q2: Effect of knowledge-driven supervision? Data Efficiency. With only 20k samples, MedCLIP > GLoRIA (200k samples). Scaling up continues to improve without saturation.
+    - Q3: Label efficiency and fine-tuning performance? Best performance across datasets; zero-shot often competitive with fine-tuned supervised models
+    - Q4: Image-text retrieval quality? Best retrieval precision at multiple K, indicating richer embeddings.
+    - Q5: Learned embedding visualization? t-SNE embeddings show distinct clusters by pathology, unlike CLIP’s homogeneous clusters.
+- **Limitations**
+  - Relies on external knowledge extraction (MetaMap, UMLS); errors in entity detection, negation, and uncertainty handling still propagate.
+  - Prompt-based inference depends heavily on prompt quality.
+  - More pretraining data still needed for robustness.
+  - Not yet practical for deployment despite strong zero-shot performance.
+- **LitReview Relevance**
+  - Fits in Section 2.3 Multimodal Fusion Methods
+    - Unlike early/late fusion works (e.g., Gapp et al. 2024, Med-Flamingo 2023), MedCLIP focuses on contrastive pretraining with medical knowledge to reduce false negatives and maximize limited data.
+  - Also informs Section 3: SOTA Baselines
+    - Provides evidence of data efficiency and zero-shot performance advantages compared to ConVIRT and GLoRIA.
+  - Relevant Gaps Addressed (Section 4):
+    - Tackles data scarcity via external knowledge alignment.
+    - Improves generalizability by unifying image-only, text-only, and paired datasets.
+    - Partially addresses interpretability through explicit semantic alignment.
+
+### Notes on [CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction](https://arxiv.org/pdf/2304.08013)
+
+- **Motivation**
+  - Traditional ordinal regression methods (Poisson, NSB, UDM, CORF) are used for benign–unsure–malignant classification.
+  - Challenge: they struggle with visually similar samples with adjacent rank labels.
+    - Example: nodules with malignancy scores 275 vs. 475 appear closer than 25 vs. 475.
+  - Observation: text attributes annotated by radiologists (subtlety, sphericity, margin, lobulation, etc.) provide clinically relevant distinctions for these hard cases.
+  - Idea: use textual attributes to guide the learning of visual features.
+- **Proposed Method: CLIP-Lung**
+  - Task: Leverage clinical textual knowledge to improve lung nodule malignancy prediction.
+  - Core Components:
+    - Channel-wise Conditional Prompt (CCP) Module
+      - Inspired by CoCoOp.
+      - Builds learnable text descriptions (class + attribute level).
+      - Generates instance-specific prompts conditioned on grouped feature maps.
+      - Produces more explainable attention maps (via Grad-CAM).
+    - Textual Knowledge-Guided Contrastive Learning
+      - Three levels of alignment:
+        - Image–class alignment (LIC): cross-entropy loss on predicted class probabilities.
+        - Image–attribute alignment (LIA): InfoNCE loss to correlate image features with specific attributes.
+        - Class–attribute alignment (LCA): ensures consistency between class and attribute embeddings (avoids mismatched latent spaces).
+    - Instance-Specific Attribute Weighting
+      - LIDC-IDRI dataset includes eight annotated attributes (rated 1–5, except calcification 1–6).
+      - Pre-trained text encoder generates shared text feature vectors.
+      - Instance-specific weighting distinguishes nodules by normalizing their annotated values.
+- **Dataset and Experimental Setup**
+  - Dataset: LIDC-IDRI (low-dose CT, 1,010 patients).
+  - Nodules labeled with malignancy scores (1–5).
+  - Cropped/resized into 32×32×32 volumes.
+  - Sub-datasets:
+    - LIDC-A: benign, unsure, malignant (all in train/test).
+    - LIDC-B: 3 classes in training; test set only benign + malignant.
+    - LIDC-C: benign + malignant only.
+  - Implementation:
+    - Image encoder: ResNet-18 (randomly initialized).
+    - Text encoder: CLIP ViT-B/16 (frozen).
+    - Optimizer: SGD w/ momentum, cosine decay LR.
+    - Losses: CE, InfoNCE, cross-modal alignment.
+    - Hardware: NVIDIA A100.
+    - Reported metrics: recall, F1-score (mean across 5-fold splits).
+- **Results**
+  - Performance
+    - CLIP-Lung outperforms ordinal regression methods and baselines (CLIP, CoCoOp).
+    - Stronger recalls for benign & malignant classes; slightly weaker for unsure.
+      - Likely due to overlapping/indistinguishable attributes.
+    - On LIDC-B and LIDC-C: strong overall performance, though recall of benign class is weaker (text features biased toward malignant nodules).
+  - Visualizations
+    - t-SNE + Grad-CAM show CLIP-Lung produces more compact latent spaces and better attention maps.
+    - Captures clinical attributes (e.g., spiculation, lobulation) more effectively than CLIP or CoCoOp.
+  - Ablation Studies
+    - LIC + LIA improves performance on LIDC-A.
+    - LIA (image–attribute) is most critical for latent space rectification.
+    - LIC + LIA > LIA + LCA, since LCA regularizes indirectly.
+- **Contributions**
+  - Proposed CLIP-Lung, integrating textual knowledge into image encoding for lung nodule classification.
+  - Designed a CCP module for attribute-conditioned prompts → more explainable attention maps.
+  - Developed text-guided contrastive learning aligning images, classes, and attributes simultaneously.
+  - Demonstrated state-of-the-art performance vs. both ordinal regression and multimodal baselines.
+
+[LLaVA-Med: Training a Large Language-and-Vision Assistant for Biomedicine in One Day](https://arxiv.org/pdf/2306.00890)
+
+- **Task**
+  - Extend LLaVA multimodal instruction-tuning to the biomedical domain.
+  - Train a biomedical visual instruction-following assistant for VQA and conversational tasks.
+- **Dataset**
+  - Biomedical visual instruction-following dataset created from PMC-15M (15M image–text pairs).
+  - GPT-4 used to generate diverse image–instruction–output triples.
+  - Stage 1: Filtered 600K image-caption pairs for feature alignment.
+  - Stage 2: Instruction-tuning dataset for multimodal Q&A.
+- **Model**
+  - LLaVA architecture with linear projection between vision encoder and language model.
+  - Vision encoder: BioMedCLIP or similar.
+  - LM: Vicuna or LLaVA.
+  - Two-stage training:
+    - Image–caption concept alignment.
+    - End-to-end instruction tuning with GPT-4 generated conversations.
+  - Curriculum learning improves domain adaptation.
+    **Training**
+  - Stage 1: Concept alignment.
+  - Stage 2: Instruction-tuning with varying dataset sizes (10K → 60K triples).
+  - Multi-GPU training: 8×A100 GPUs.
+  - Total training < 15 hours.
+- **Results**
+  - Outperforms LLaVA baseline consistently across biomedical VQA datasets:
+    - VQA-RAD (radiology), SLAKE (knowledge-rich bilingual), PathVQA.
+  - Stage 2 instruction tuning critical for performance.
+  - Larger LM size (7B → 13B) improves zero-shot and fine-tuned results.
+- **Limitations**
+  - Performance weaker on ambiguous open-ended datasets.
+  - Dataset construction relies heavily on GPT-4 synthetic triples.
+- **Key Contributions**
+  - Low-cost, generalizable biomedical multimodal instruction-tuning pipeline.
+  - Open-source dataset and code for biomedical VQA assistant.
+  - Demonstrates feasibility of training domain-specific multimodal LLMs in <1 day.
+- **LitReview Relevance**
+  - Section 2.3: Multimodal fusion and instruction tuning.
+  - Section 3: SOTA biomedical VQA performance.
+  - Section 4: Research gaps in domain-specific multimodal LLMs and rapid adaptation.
+
+### Notes on [Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview](https://pmc.ncbi.nlm.nih.gov/articles/PMC12108733/)
+
+- **Task**
+  - Improve diagnostic accuracy by integrating imaging and non-imaging data in radiology.
+  - Address limitations of single-modality ML methods.
+
+**Datasets**
+
+- Imaging: X-ray, CT, MRI, ultrasound, nuclear medicine.
+- Non-imaging: clinical reports, EHR, lab tests, ECG/EEG, patient histories.
+- Multimodal combinations: Image+Text, Image+Structured Data, Time-Series+Image.
+
+**Models**
+
+- Fusion approaches:
+  - Early fusion (feature-level), joint fusion (latent space), late fusion (decision-level).
+- Transformer-based models: PixelBERT, VisualBERT, UNITER, LXMERT.
+- Representation learning: co-learning, latent-space alignment, weak/self-supervised learning.
+- Cross-modality retrieval: Align info across modalities for clinical decision support.
+  **Applications**
+- Disease classification: multimodal inputs outperform unimodal.
+- Visual Question Answering (VQA) with image+text input.
+- Fusion architectures like MIFTP improve feature integration and classification.
+  **Limitations**
+- Most datasets dominated by radiographs; need more CT/MRI.
+- Underutilized non-image data (labs, discharge notes, vitals).
+- Current work mostly bimodal; need for robust multimodal systems.
+- Evaluation practices inconsistent; unimodal baselines often missing.
+  **Key Contributions**
+- Comprehensive review of multimodal machine learning in radiology.
+- Highlights transformer-based multimodal fusion as most effective.
+- Identifies critical gaps: diverse datasets, non-imaging integration, standard evaluation.
+- **LitReview Relevance**
+  - Section 2.3: Fusion strategies and multimodal integration.
+  - Section 3: SOTA classification and VQA methods.
+  - Section 4: Research gaps in multimodal radiology ML.
+
+### Notes on [Assessing the performance of zero-shot visual question answering in multimodal large language models for 12-lead ECG image interpretation](https://pmc.ncbi.nlm.nih.gov/articles/PMC11839599/)
+
+- **Task**
+  - Evaluate zero-shot VQA capabilities of multimodal LLMs on 12-lead ECG images.
+  - Identify hallucinations and modality limitations in specialized medical tasks.
+- **Dataset**
+  - Primary: 928 12-lead ECG images (normal, abnormal heartbeat, MI, previous MI).
+  - Validation: PTB-XL dataset, 21,799 images.
+    **Models**
+  - ViLT (Vision-and-Language Transformer), Gemini Pro Vision.
+  - ChatGPT Plus: stepwise reasoning approach.
+  - Zero-shot prompting with direct answer mapping or natural language selection.
+- **Results**
+  - Models biased toward predicting “normal”.
+  - ChatGPT Plus: slightly higher F1-score, fewer hallucinations.
+  - Stepwise outputs sometimes contained errors despite correct answer.
+- **Limitations**
+  - Small dataset; limited lead sequence variation.
+  - Only 3 models tested; no healthcare-specific models included.
+  - Evaluation did not incorporate structured waveform data.
+- **Key Contributions**
+  - Highlights challenges of zero-shot VQA on specialized medical signal data.
+  - Emphasizes importance of careful evaluation and structured input.
+- **LitReview Relevance**
+  - Section 2.3: Zero-shot multimodal VQA limitations.
+  - Section 4: Research gaps in waveform/audio-based multimodal medical ML.
+
+### Notes on [MedFuseNet: An attention-based multimodal deep learning model for visual question answering in the medical domain](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494920/)
+
+- **Task**
+  - Answer clinically relevant questions from radiology images (VQA).
+  - Address fusion of visual and textual features while maintaining interpretability.
+- **Dataset**
+  - MED-VQA: 4,200 images; Modality (36), Plane (16), Organ (10) classes.
+  - PathVQA: Yes/no answers for pathological images.
+- **Model**
+  - Image encoder: ResNet-152 preferred.
+  - Question encoder: BERT preferred.
+  - Feature fusion: Multimodal Factorized Bilinear (MFB) pooling.
+  - Answer prediction: LSTM decoder for generative tasks; classification for categorical answers.
+  - Attention: Image attention, Image-Question co-attention. -**Results**
+  - MED-VQA accuracy: Modality 0.840, Plane 0.780, Organ 0.746.
+  - PathVQA accuracy: 0.636; simpler models work for yes/no.
+  - Outperforms baselines (BAN, SAN, hierarchical co-attention).
+  - Attention visualizations align with medically relevant regions.
+- **Limitations**
+  - Limited dataset size.
+  - Ablation: 18 feature-fusion combinations evaluated; best results depend on modality/task.
+- **Key Contributions**
+  - Attention-based multimodal fusion improves interpretability and performance.
+  - Handles classification and generative VQA tasks.
+- **LitReview Relevance**
+  - Section 2.3: Multimodal fusion methods.
+  - Section 3: SOTA VQA performance in medical imaging.
+
+### Notes on [Collaborative Modality Fusion for Mitigating Language Bias in Visual Question Answering](https://pmc.ncbi.nlm.nih.gov/articles/PMC10971294/)
+
+- **Task**
+  - Address modality biases in VQA (language or visual shortcuts).
+  - Ensure both modalities contribute effectively.
+- **Dataset**
+  - VQA v2, VQA-CP v2, VQA-VS (bias assessment).
+- **Model**
+  - CoD-VQA: Collaborative modality fusion framework.
+  - Key ideas:
+    - Identify “scarce” modality.
+    - Use enriched modality to enhance deprived modality.
+    - Multimodal fusion: early, late, hybrid, attention-based, tensor/bilinear pooling.
+  - Bias prediction and collaborative training reduce over-reliance on one modality.
+- **Results**
+  - Outperforms UpDn baseline (~20% on VQA-CP v2).
+  - Robust generalization to VQA v2.
+  - Qualitative: correctly localizes visual regions under bias.
+- **Limitations**
+  - Requires careful modality selection.
+  - Performance dependent on feature extractor (e.g., LXMERT).
+- **Key Contributions**
+  - Collaborative learning effectively mitigates language/visual biases without extra annotations.
+  - Promotes multimodal reasoning in biased datasets.
+- **LitReview Relevance**
+  - Section 2.3: Bias mitigation and multimodal fusion strategies.
+
+### Notes on [Histopathology in focus: a review on explainable multi-modal approaches for breast cancer diagnosis](https://pmc.ncbi.nlm.nih.gov/articles/PMC11471683/)
+
+- **Task**
+  - Comprehensive review of unimodal vs. multimodal computational pathology approaches for breast cancer diagnosis.
+  - Emphasis on diagnostic accuracy, generalizability, and explainability in histopathology.
+- **Unimodal Approaches**
+  - CNNs (VGG16, MobileNet, InceptionV3, ResNet-based ensembles).
+  - GAN-based methods for patch generation and normalization.
+  - MIL + XGBoost for patch aggregation.
+  - Achieved high accuracy (92–99%) but limited by overfitting, imbalance, and lack of complementary information.
+- **Multimodal Approaches**
+  - Fusion of histopathology images with molecular data, genomic profiles, clinical data.
+  - Fusion strategies: early, late, intermediate; attention-based (co-/cross-attention); graph neural networks; generative (VAE, diffusion).
+  - **Notable works**:
+    - Yan et al.: VGG16 + clinical autoencoder → 90.6% accuracy.
+    - PathLDM: text-guided latent diffusion for pathology images.
+    - GNN-based methods for survival prediction with multimodal inputs.
+    - Consistently outperformed unimodal methods.
+- **Limitations**
+  - Small datasets, poor subtype representation, variable staining/normalization.
+  - Computationally expensive.
+  - Lack of standardization in multimodal evaluation.
+- **Key Contributions**
+  - Demonstrates that multimodal methods improve robustness, generalization, and clinical relevance.
+  - Identifies integration of heterogeneous data (images + genomics + clinical) as critical.
+  - Emphasizes need for interpretability in multimodal pathology ML.
+
+**LitReview Relevance**
+
+- Section 2.1/2.2: Unimodal method comparison
+- Section 2.3: Multimodal fusion methods (image + omics + clinical data).
+- Section 3: Comparative performance benchmarks for unimodal vs. multimodal pathology.
+- Section 4: Research gaps in data integration, interpretability, and standardization.
+
+### Notes on [A scoping review on multimodal deep learning in biomedical images and texts](https://pmc.ncbi.nlm.nih.gov/articles/PMC10591890/)
+
+- **Task**
+  - Broad review of multimodal deep learning (MDL) methods for biomedical images + text.
+  - Covers downstream tasks: report generation, VQA, cross-modal retrieval, computer-aided diagnosis (CAD), and segmentation.
+- **Tasks and Datasets**
+  - Report Generation: MIMIC-CXR, CheXpert.
+  - VQA: VQA-MED (2018–2020), VQA-RAD, SLAKE, PathVQA.
+  - Cross-modal Retrieval: ROCO, ARCH.
+  - CAD / Segmentation: multimodal image-text tasks in oncology, pathology, radiology.
+- **Model Techniques**
+  - Image encoders: CNNs (ResNet, VGGNet), ViTs.
+  - Text encoders: LSTMs, GRUs, BERT.
+  - Fusion: attention mechanisms (SAN, BAN, MFB, MFH), contrastive learning, pre-training (CPRD).
+  - Knowledge integration: knowledge graphs, ontologies.
+  - Privacy-aware: federated learning, differential privacy.
+- **Findings**
+  - Multimodal models improve diagnostic accuracy and decision support.
+  - VQA: attention-based fusion boosts interpretability.
+  - Retrieval: contrastive learning enables alignment of image–text embeddings.
+  - CAD: multimodal systems outperform unimodal.
+- **Limitations**
+  - Limited annotated multimodal datasets (especially outside radiology).
+  - Few models integrate domain knowledge.
+  - Privacy concerns restrict dataset sharing.
+  - Sparse and inconsistent human evaluation.
+  - Fairness and interpretability underdeveloped.
+- **Key Contributions**
+  - Systematic mapping of multimodal tasks, models, and datasets.
+  - Identifies critical challenges: dataset scarcity, interpretability, fairness.
+  - Calls for standardized evaluation protocols.
+- **LitReview Relevance**
+  - Section 2.3: Fusion strategies and multimodal VQA/retrieval methods.
+  - Section 3: Report generation and CAD as emerging classification-related tasks.
+  - Section 4: Research gaps in datasets, interpretability, and fairness.
+
+(Will be auto-populated with `pandoc --citeproc` + `references.bib`.)
