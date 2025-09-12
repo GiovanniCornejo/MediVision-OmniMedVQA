@@ -2,66 +2,88 @@
 
 ## Introduction
 
-Accurate clinical diagnosis often requires combining imaging studies (e.g. chest X-rays, CT scans) with textual information such as radiology reports or clinical notes. These modalities offer complementary insights: images capture visual manifestations of disease, while text provides clinical context and explicit findings.
+Multimodal classifiers combine information from multiple sources, such as images and text, to improve prediction accuracy. Accurate clinical diagnosis often requires combining imaging studies (e.g. chest X-rays, CT scans) with textual information such as radiology reports or clinical notes [@Haq2025_Advancements_MMML_Radiology]. These modalities offer complementary insights: images capture visual manifestations of disease, while text provides clinical context and explicit findings.
 
-Studies suggest that models integrating vision and language yield more robust classifiers than uni-modal models [@Sun2023_MultimodalReview]. For example, a report might explicitly mention “infiltrate” even if it is subtle on the X-ray, guiding the model’s attention to that finding. Conversely, the image can disambiguate vague textual descriptions. By fusing both sources, multimodal classifiers can improve disease prediction. This review surveys such methods, focusing on fusion strategies (early/late/joint), pretrained vision–language backbones (e.g. CLIP, LLaVA, Flamingo) and contrastive learning, and highlights representative datasets, benchmark results, and ongoing challenges.
-
----
+Studies suggest that models integrating vision and text yield more robust classifiers than uni-modal models [@Sun2023_MultimodalReview]. For example, a report might explicitly mention a characteristic that is subtle on the X-ray, guiding the model’s attention to that finding. Conversely, the image can disambiguate vague textual descriptions. By fusing both sources, multimodal classifiers can improve disease prediction. This review surveys such methods, focusing on fusion strategies (early/late/joint), pretrained vision–language backbones (e.g. CLIP, LLaVA, Flamingo) and contrastive learning, and highlights representative datasets, benchmark results, and ongoing challenges.
 
 ## 2. Existing Approaches
 
-### 2.1 Image-only Classification Methods
+### Image-only Classification Methods (TODO)
 
 - CNN/ViT-based models applied to medical imaging classification tasks.
 - Strengths: strong visual pattern recognition.
 - Limitations: cannot incorporate textual or clinical context, limiting performance on complex cases.
 
-### 2.2 Text-only Classification Methods
+### Text-only Classification Methods (TODO)
 
 - Large language models (LLMs) used for classification from clinical notes or prompts.
 - Strengths: captures linguistic patterns.
 - Limitations: ignores imaging evidence, may misclassify visually subtle pathologies.
 
-### 2.3 Multimodal Fusion Methods
+### Multimodal Fusion Methods
 
-- Early fusion: combining image and text features before classification.
-- Late fusion: combining predictions from separate image and text classifiers.
-- Representative works:
-  - Gapp et al. (2024): early fusion of X-rays + reports with LLaMA II backbone.
-  - Med-Flamingo (2023): few-shot VLM for VQA-style tasks, adapted for classification.
-- Advantages: improved accuracy, ability to leverage complementary modalities.
-- Limitations: often dataset-specific, may not generalize to multiple domains or unseen tasks.
+#### Fusion Strategies and Model Architectures
 
----
+Methods for multimodal classification differ in how they merge image and text features [@Sun2023_MultimodalReview]:
 
-## 3. State-of-the-Art Classification Baselines
+- Early fusion (feature-level): concatenates image and text embeddings into a joint representation.
+- Late fusion (decision-level) combines outputs of independent image-only and text-only classifiers.
+- Joint fusion architectures allow deep cross-modal interaction via shared latent spaces or attention mechanisms.
 
-- Summarize reported classification metrics on multimodal datasets (e.g., OpenI, FLARE25, MMMED).
-- Key observations:
-  - VLMs (BiomedCLIP, OpenCLIP, LLaVA, OpenFlamingo) show strong zero-shot/few-shot classification performance.
-  - RAG-based models (e.g., MMed-RAG) improve factual accuracy and alignment for clinical tasks.
-- Multi-label classification remains challenging due to class imbalance and limited multi-domain datasets.
-- Highlight reproducibility: open-source models and datasets vs. proprietary solutions.
+For example, Gapp et al. fuse chest X-ray and report embeddings using a LLaMA-II backbone, exploring early, late, and mixed fusion pipelines for thoracic disease classification [@Gapp2024_LLaMA2Med]. Vision-language transformers such as Med-Flamingo [@Moor2023_MedFlamingo] also merge modalities via cross-attention layers, which allow the model to weigh relevant text features for each image region, enabling more nuanced multimodal reasoning. LLaVA-Med [@Li2023_LLaVA_Med] uses a projection/prefix-style fusion. Collaborative strategies, such as those proposed in CoD-VQA [@Lu2024CoDVQA], can mitigate modality-specific biases by leveraging richer modalities to enhance underrepresented ones, an approach that offers insights for robust medical multimodal fusion.
 
----
+Large VLMs such as BiomedCLIP and OpenFlamingo perform competitively across multiple datasets in zero- or few-shot settings without requiring fine-tuning [@Van2024_LargeVLMsMed], and Med-Flamingo adapts quickly to new radiology tasks in few-shot scenarios [@Moor2023_MedFlamingo]. These strategies use complementary data to boost accuracy, although they require carefully aligned training data and can be sensitive to modality-specific noise.
 
-## 4. Research Gaps in Multimodal Classification
+Moreover, fusion-based architectures can be further enhanced through contrastive pretraining, which produces robust cross-modal embeddings and facilitates zero- or few-shot adaptation for downstream classification.
 
-- Single-task focus: most existing methods are evaluated on a single dataset or task.
-- Data limitations (imbalances, ambiguous prompts).
-- Limited generalizability across multiple imaging modalities (X-ray, ultrasound, microscopy, etc.) and disease categories.
-- Interpretability and trustworthiness: many models (especially LLM/VLM-based) are black boxes.
-- Resource constraints: large models require significant computational power.
-- Integration of multiple tasks: few models can flexibly handle both single-label and multi-label classification across domains.
+#### Contrastive Representation Learning
 
----
+Contrastive learning approaches explicitly align image and text embeddings. For example:
 
-## 5. Conclusion
+- Wang et al. [@Wang2022_MedCLIP] show that contrastively training on chest X-ray images and their reports improves downstream classification performance compared to older self-supervised approaches. Contrastive pretraining also provides a strong initialization for zero- or few-shot adaptation.
+- Lei et al. introduce CLIP-Lung, which employs contrastive learning with radiology prompt templates and disease-specific attributes to enhance lung nodule malignancy prediction, achieving state-of-the-art performance on the LIDC-IDRI dataset [@Lei2023_CLIP_Lung].
+
+These methods help models learn meaningful cross-modal embeddings even when labeled examples are scarce, complementing the fusion strategies described above and supporting multimodal classification.
+
+#### Datasets and Classification Tasks
+
+Key multimodal datasets include:
+
+- Chest X-ray (multi-label): OpenI and MIMIC-CXR contain thousands of frontal X-rays with paired radiology reports and labels for common findings [@Gapp2024_LLaMA2Med].
+- Lung CT nodules: LIDC-IDRI provides lung CT scans with annotated nodules. Recent work augments LIDC with textual nodule descriptions to classify nodules as benign or malignant [@Lei2023_CLIP_Lung].
+- Ultrasound imaging: UDIAT (breast ultrasound) has images with diagnostic labels. Byra et al. show that even simple text descriptors combined with CLIP enable few-shot ultrasound classification [@Byra2023_FewShotVLM].
+- Histopathology: These emerging datasets pair pathology images with clinical summaries; for example, multimodal breast cancer challenges include histology slides accompanied by relevant text [@Abdullakutty2024_MultiModalHistopathology].
+
+These examples cover typical classification tasks (single-label and multi-label) in radiology and related fields. Most current models are evaluated on such radiology benchmarks, but diversity across modalities (e.g. MRI, pathology) and tasks remains limited, highlighting the need for broader multimodal datasets.
+
+## State-of-the-Art Models and Results
+
+Recent multimodal classifiers achieve strong results on benchmark tasks:
+
+- LLaMA-II fusion [@Gapp2024_LLaMA2Med]: AUC 0.971 on OpenI chest X-ray classification using fused image and report inputs, surpassing unimodal baselines.
+- CLIP-Lung [@Lei2023_CLIP_Lung]: State-of-the-art on LIDC-IDRI nodule classification with textual knowledge guidance.
+- Contrastive models: MedCLIP [@Wang2022_MedCLIP] outperforms previous self-supervised methods in image–text retrieval and classification.
+- Large VLMs: BiomedCLIP and OpenFlamingo achieve competitive zero-/few-shot performance compared to CNNs without fine-tuning [@Van2024_LargeVLMsMed], while Med-Flamingo adapts quickly to new radiology tasks [@Moor2023_MedFlamingo].
+
+In general, vision–language models (both fine-tuned and zero-shot) consistently outperform image-only or text-only baselines on these benchmarks [@Wang2022_MedCLIP], demonstrating the benefit of multimodal integration.
+
+## Challenges and Research Gaps
+
+Key challenges remain in multimodal medical classification:
+
+- Data scarcity, modality, and domain shift: High-quality paired image–text examples are limited and often skewed toward certain modalities (e.g., more X-rays than matched reports), which can bias training and leave information underutilized. Models trained on a single dataset or domain may also fail to generalize to other modalities (e.g., X-ray to CT) [@Sun2023_MultimodalReview]. Ensuring robust performance across imaging types, domains, and patient populations remains an open challenge.
+- Interpretability and trust: Modern multimodal models (especially large transformers) are largely opaque. Some work (e.g. attention maps in MedFuseNet) offers partial insight [@Sharma2021_MedFuseNet], but systematically explaining how image and text combine to yield a prediction remains difficult. This lack of transparency hinders clinical acceptance.
+- Bias and hallucination: VLMs may over-rely on textual priors or external knowledge, sometimes ignoring the image and producing "hallucinated" findings [@Xia2025_MMedRAG; @Moor2023_MedFlamingo]. This issue persists across specialized modalities; for example, zero-shot VQA models on 12-lead ECGs tend to overpredict "normal" rhythms and occasionally hallucinate outputs [@Seki2025_ZeroShotECG]. Developing methods to ensure predictions are truly grounded in data is crucial.
+- Resource and annotation costs: Training and fine-tuning large multimodal models require substantial compute resources, and curating labeled image–text datasets in healthcare is labor-intensive. These practical constraints slow the development and evaluation of new methods.
+
+Addressing these gaps is an active research area. For example, retrieval-augmented models like MMed-RAG incorporate external knowledge to reduce hallucination [@Xia2025_MMedRAG]. Expanding multimodal datasets and developing techniques to interpret multimodal reasoning will be key to deploying reliable clinical classifiers in practice.
+
+## Conclusion (TODO)
 
 - Image-only and text-only models are limited for multimodal classification tasks.
 - Fusion-based multimodal methods outperform unimodal approaches, but generalization and interpretability challenges remain.
 - Motivates your group’s work: developing and benchmarking novel multimodal classifiers for FLARE25, with a focus on both single-label and multi-label classification.
 
----
-
 ## References
+
+[//]: <> (Will be auto-populated with `pandoc reports/draft_reports/part1_litreview.md --citeproc --bibliography=references.bib --csl=ieee.csl  -o deliverables/part1/part1_litreview.html`...)
