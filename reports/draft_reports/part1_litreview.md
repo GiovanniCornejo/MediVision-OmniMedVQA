@@ -56,7 +56,7 @@ Recent multimodal classifiers achieve strong results on benchmark tasks:
 - LLaMA-II fusion [@Gapp2024_LLaMA2Med]: AUC 0.971 on OpenI chest X-ray classification using fused image-report inputs, surpassing unimodal baselines.
 - CLIP-Lung [@Lei2023_CLIP_Lung]: SOTA on LIDC-IDRI nodule classification with textual knowledge guidance.
 - MedCLIP [@Wang2022_MedCLIP]: Outperforms previous self-supervised methods in image–text retrieval and classification.
-- Large VLMs: BiomedCLIP and OpenFlamingo achieve competitive zero-/few-shot performance compared to CNNs without fine-tuning [@Van2024_LargeVLMsMed], while Med-Flamingo adapts quickly to new radiology tasks [@Moor2023_MedFlamingo].
+- Large VLMs: BiomedCLIP and OpenFlamingo achieve competitive zero-/few-shot performance compared to CNNs without the need for fine-tuning [@Van2024_LargeVLMsMed], while Med-Flamingo adapts quickly to new radiology tasks [@Moor2023_MedFlamingo].
 
 In general, vision–language models (both fine-tuned and zero-shot) consistently outperform uni-modal baselines on these benchmarks [@Wang2022_MedCLIP], demonstrating the benefit of multimodal integration.
 
