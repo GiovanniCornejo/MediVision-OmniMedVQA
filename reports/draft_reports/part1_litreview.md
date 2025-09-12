@@ -38,27 +38,27 @@ Large VLMs such as BiomedCLIP and OpenFlamingo achieve strong zero-/few-shot per
 
 Contrastive learning approaches align image and text embeddings. Wang et al. demonstrate improved downstream classification with contrastive training on chest X-rays and reports [@Wang2022_MedCLIP]. Lei et al. introduce CLIP-Lung uses radiology prompts and disease-specific attributes for lung nodule malignancy prediction, achieving SOTA performance on LIDC-IDRI [@Lei2023_CLIP_Lung]. These methods also provide a strong initialization for zero- or few-shot adaptation and help models learn meaningful cross-modal embeddings even when labeled examples are scarce.
 
-#### Datasets and Classification Tasks
+#### Datasets
 
 Key multimodal datasets include:
 
-- Chest X-ray (multi-label): OpenI and MIMIC-CXR contain thousands of frontal X-rays with paired radiology reports and labels for common findings [@Gapp2024_LLaMA2Med].
+- Chest X-ray: OpenI and MIMIC-CXR contain thousands of frontal X-rays with paired radiology reports and labels for common findings [@Gapp2024_LLaMA2Med].
 - Lung CT nodules: LIDC-IDRI provides lung CT scans with annotated nodules. Recent work augments LIDC with textual nodule descriptions to classify nodules as benign or malignant [@Lei2023_CLIP_Lung].
-- Ultrasound imaging: UDIAT (breast ultrasound) has images with diagnostic labels. Byra et al. show that even simple text descriptors combined with CLIP enable few-shot ultrasound classification [@Byra2023_FewShotVLM].
-- Histopathology: These emerging datasets pair pathology images with clinical summaries; for example, multimodal breast cancer challenges include histology slides accompanied by relevant text [@Abdullakutty2024_MultiModalHistopathology].
+- Ultrasound: UDIAT (breast ultrasound) has images with diagnostic labels. Byra et al. show that even simple text descriptors combined with CLIP enable few-shot ultrasound classification [@Byra2023_FewShotVLM].
+- Histopathology: Emerging datasets pair pathology images with clinical summaries; for example, multimodal breast cancer challenges include histology slides accompanied by relevant text [@Abdullakutty2024_MultiModalHistopathology].
 
 These examples cover typical classification tasks (single-label and multi-label) in radiology and related fields. Most current models are evaluated on such radiology benchmarks, but diversity across modalities (e.g. MRI, pathology) and tasks remains limited, highlighting the need for broader multimodal datasets.
 
-## State-of-the-Art Models and Results
+## State-of-the-Art Models
 
 Recent multimodal classifiers achieve strong results on benchmark tasks:
 
-- LLaMA-II fusion [@Gapp2024_LLaMA2Med]: AUC 0.971 on OpenI chest X-ray classification using fused image and report inputs, surpassing unimodal baselines.
-- CLIP-Lung [@Lei2023_CLIP_Lung]: State-of-the-art on LIDC-IDRI nodule classification with textual knowledge guidance.
-- Contrastive models: MedCLIP [@Wang2022_MedCLIP] outperforms previous self-supervised methods in image–text retrieval and classification.
+- LLaMA-II fusion [@Gapp2024_LLaMA2Med]: AUC 0.971 on OpenI chest X-ray classification using fused image-report inputs, surpassing unimodal baselines.
+- CLIP-Lung [@Lei2023_CLIP_Lung]: SOTA on LIDC-IDRI nodule classification with textual knowledge guidance.
+- MedCLIP [@Wang2022_MedCLIP]: Outperforms previous self-supervised methods in image–text retrieval and classification.
 - Large VLMs: BiomedCLIP and OpenFlamingo achieve competitive zero-/few-shot performance compared to CNNs without fine-tuning [@Van2024_LargeVLMsMed], while Med-Flamingo adapts quickly to new radiology tasks [@Moor2023_MedFlamingo].
 
-In general, vision–language models (both fine-tuned and zero-shot) consistently outperform image-only or text-only baselines on these benchmarks [@Wang2022_MedCLIP], demonstrating the benefit of multimodal integration.
+In general, vision–language models (both fine-tuned and zero-shot) consistently outperform uni-modal baselines on these benchmarks [@Wang2022_MedCLIP], demonstrating the benefit of multimodal integration.
 
 ## Challenges and Research Gaps
 
