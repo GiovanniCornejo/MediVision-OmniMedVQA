@@ -1,44 +1,44 @@
-@misc{Gapp2024_LLaMA2Med,
+@INPROCEEDINGS{Gapp2024_LLaMA2Med,
   title     = {Multimodal Medical Disease Classification with LLaMA II},
   author    = {Christian Gapp and Elias Tappeiner and Martin Welk and Rainer Schubert},
+  booktitle = {Proceedings of Austrian Symposium on AI, Robotics, and Vision 2024},
   year      = {2024},
-  eprint    = {2412.01306},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.AI},
-  doi       = {10.48550/arXiv.2412.01306},
-  url       = {https://arxiv.org/abs/2412.01306},
+  doi       = {10.15203/99106-150-2-07},
+  url       = {https://doi.org/10.15203/99106-150-2-07},
   note      = {Chest X-ray + report classification with LLaMA II and vision-language fusion (early/late/mixed) + LoRA fine-tuning. Achieves SOTA AUC (0.971) on OpenI. Relevant for multimodal classification. Discusses Early, Late, Mixed fusion pipelines}
 }
 
-@InProceedings{Moor2023_MedFlamingo,
-  title     = {Med-Flamingo: a Multimodal Medical Few-shot Learner},
+@INPROCEEDINGS{Moor2023_MedFlamingo,
+  title     = {Med-Flamingo: A Multimodal Medical Few-shot Learner},
   author    = {Michael Moor and Qian Huang and Shirley Wu and Michihiro Yasunaga and Yash Dalmia and Jure Leskovec and Cyril Zakka and Eduardo Pontes Reis and Pranav Rajpurkar},
   booktitle = {Proceedings of the 3rd Machine Learning for Health Symposium},
+  series    = {Proceedings of Machine Learning Research},
   pages     = {353--367},
   year      = {2023},
+  month     = {10 Dec},
+  volume    = {225},
   publisher = {PMLR},
   url       = {https://proceedings.mlr.press/v225/moor23a.html},
   note      = {Introduces Med-Flamingo, a few-shot multimodal medical VQA model with interleaved text-image pretraining. Strong in-context learning, human evaluation, but limited by hallucinations and missing pathologies.}
 }
 
 @INPROCEEDINGS{Van2024_LargeVLMsMed,
-  author    = {Minh–Hao Van and Prateek Verma and Xintao Wu},
+  author    = {Minh-Hao Van and Prateek Verma and Xintao Wu},
   title     = {On Large Visual Language Models for Medical Imaging Analysis: An Empirical Study},
-  booktitle = {2024 IEEE/ACM CHASE},
+  booktitle = {2024 IEEE/ACM Conference on Connected Health: Applications, Systems and Engineering Technologies (CHASE)}, 
   pages     = {172--176},
   year      = {2024},
   doi       = {10.1109/CHASE60773.2024.00029},
+  url       = {https://doi.org/10.1109/CHASE60773.2024.00029},
   note      = {Benchmarks VLMs (BiomedCLIP, OpenCLIP, Flamingo, LLaVA, GPT-4) on brain MRI, microscopy, COVID X-rays. Compares zero-/few-shot, prompts, vs CNN baselines. Relevant for VLM eval.}
 }
 
-@misc{Xia2025_MMedRAG,
+@INPROCEEDINGS{Xia2025_MMedRAG,
   title     = {MMed-RAG: Versatile Multimodal RAG System for Medical Vision Language Models},
   author    = {Peng Xia and Kangyu Zhu and Haoran Li and Tianze Wang and Weijia Shi and Sheng Wang and Linjun Zhang and James Zou and Huaxiu Yao},
+  booktitle = {Proceedings of the 2025 International Conference on Learning Representations (ICLR)},
   year      = {2025},
-  eprint    = {2410.13085},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.LG},
-  url       = {https://arxiv.org/abs/2410.13085},
+  url       = {https://proceedings.iclr.cc/paper_files/paper/2025/file/a559a5a8aa5ae6682ced009ad97cdb16-Paper-Conference.pdf},
   note      = {Proposes MMed-RAG with domain-aware retrieval and context selection. Improves factuality and cross-modality alignment on medical VQA/report generation.}
 }
 
@@ -49,8 +49,9 @@
   eprint    = {2308.04005},
   archivePrefix = {arXiv},
   primaryClass = {cs.CV},
-  url       = {https://arxiv.org/abs/2308.04005},
-  note      = {Uses GPT-4–generated shape/texture descriptors with CLIP for few-shot classification (X-ray, ultrasound). Improves n-shot performance where data is limited.}
+  doi           = {10.48550/arXiv.2308.04005},
+  url       = {https://doi.org/10.48550/arXiv.2308.04005},
+  note      = {Uses GPT-4-generated shape/texture descriptors with CLIP for few-shot classification (X-ray, ultrasound). Improves n-shot performance where data is limited.}
 }
 
 @misc{Wang2022_MedCLIP,
