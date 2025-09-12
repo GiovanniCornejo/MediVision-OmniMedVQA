@@ -584,5 +584,3 @@
   - Section 2.3: Fusion strategies and multimodal VQA/retrieval methods.
   - Section 3: Report generation and CAD as emerging classification-related tasks.
   - Section 4: Research gaps in datasets, interpretability, and fairness.
-
-(Will be auto-populated with `pandoc --citeproc` + `references.bib`.)
