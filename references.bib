@@ -54,18 +54,20 @@
   note      = {Uses GPT-4-generated shape/texture descriptors with CLIP for few-shot classification (X-ray, ultrasound). Improves n-shot performance where data is limited.}
 }
 
-@misc{Wang2022_MedCLIP,
+@INPROCEEDINGS{Wang2022_MedCLIP,
   title     = {MedCLIP: Contrastive Learning from Unpaired Medical Images and Text},
   author    = {Zifeng Wang and Zhenbang Wu and Dinesh Agarwal and Jimeng Sun},
+  booktitle = {Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing},
+  publisher = {Association for Computational Linguistics},
   year      = {2022},
-  eprint    = {2210.10163},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV},
-  url       = {https://arxiv.org/abs/2210.10163},
+  month     = {Dec},
+  pages     = {3876--3887},
+  doi       = {10.18653/v1/2022.emnlp-main.256},
+  url       = {https://aclanthology.org/2022.emnlp-main.256/},
   note      = {Contrastive pretraining with UMLS/MetaMap to align image, text, and paired data. Strong zero-shot classification/retrieval on chest X-rays, beating ConVIRT/GLoRIA with less data.}
 }
 
-@inbook{Lei2023_CLIP_Lung,
+@INBOOK{Lei2023_CLIP_Lung,
   title     = {CLIP-Lung: Textual Knowledge-Guided Lung Nodule Malignancy Prediction},
   ISBN      = {9783031439902},
   ISSN      = {1611-3349},
@@ -79,38 +81,41 @@
   note      = {Lung nodule malignancy prediction via CT + textual annotations. Uses channel-wise conditional prompt and knowledge-guided contrastive learning. SOTA on LIDC-IDRI.}
 }
 
-@misc{Li2023_LLaVA_Med,
+@INPROCEEDINGS{Li2023_LLaVA_Med,
   title     = {LLaVA-Med: Training a Large Language-and-Vision Assistant for Biomedicine in One Day},
   author    = {Li, Chunyuan and Wong, Cliff and Zhang, Sheng and Usuyama, Naoto and Liu, Haotian and Yang, Jianwei and Naumann, Tristan and Poon, Hoifung and Gao, Jianfeng},
+  booktitle = {Advances in Neural Information Processing Systems},
+  pages     = {28541--28564},
+  publisher = {Curran Associates, Inc.},
+  volume    = {36},
   year      = {2023},
-  eprint    = {2306.00890},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV},
-  url       = {https://arxiv.org/abs/2306.00890},
+  url       = {https://proceedings.neurips.cc/paper_files/paper/2023/file/5abcdf8ecdcacba028c6662789194572-Paper-Datasets_and_Benchmarks.pdf},
   note      = {Adapts LLaVA to biomedical domain using PMC-15M. Two-stage curriculum (concept alignment + instruction tuning). Strong biomedical VQA with low cost.}
 }
 
-@article{Haq2025_Advancements_MMML_Radiology,
-  title={Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview},
-  author={Haq, Imran Ullah and et al.},
-  journal={Bioengineering (Basel)},
-  volume={12},
-  number={5},
-  pages={477},
-  year={2025},
-  doi={10.3390/bioengineering12050477},
+@ARTICLE{Haq2025_Advancements_MMML_Radiology,
+  title   = {Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview},
+  author  = {Imran Ul Haq and Mustafa Mhamed and Mohammed Al-Harbi and Hamid Osman and Zuhal Y. Hamd and Zhe Liu},
+  journal = {Bioengineering (Basel)},
+  volume  = {12},
+  number  = {5},
+  pages   = {477},
+  year    = {2025},
+  doi     = {10.3390/bioengineering12050477},
+  url     = {https://doi.org/10.3390/bioengineering12050477},
   note={Survey of multimodal ML in radiology. Covers fusion (early/late/joint), representation learning, cross-modal retrieval. Applications: classification, VQA. Notes future directions incl. time-series, beyond bimodal.}
 }
 
-@article{Seki2025_ZeroShotECG,
-  title={Assessing zero-shot VQA in multimodal LLMs for 12-lead ECG interpretation},
-  author={Seki, Takumi and et al.},
-  journal={Frontiers in Cardiovascular Medicine},
-  volume={12},
-  pages={1458289},
-  year={2025},
-  doi={10.3389/fcvm.2025.1458289},
-  note={Tests ViLT, Gemini Pro Vision, ChatGPT on ECG VQA. Models biased toward “normal”; ChatGPT best but still hallucinates. Highlights evaluation and structured data needs.}
+@ARTICLE{Seki2025_ZeroShotECG,
+  title   = {Assessing the performance of zero-shot visual question answering in multimodal large language models for 12-lead ECG image interpretation},
+  author  = {Seki, Tomohisa and Kawazoe, Yoshimasa and Ito, Hiromasa and Akagi, Yu and Takiguchi, Toru and Ohe, Kazuhiko},
+  journal = {Frontiers in Cardiovascular Medicine},
+  volume  = {12},
+  pages   = {1458289},
+  year    = {2025},
+  doi     = {10.3389/fcvm.2025.1458289},
+  url     = {https://doi.org/10.3389/fcvm.2025.1458289},
+  note    = {Tests ViLT, Gemini Pro Vision, ChatGPT on ECG VQA. Models biased toward “normal”; ChatGPT best but still hallucinates. Highlights evaluation and structured data needs.}
 }
 
 @article{Sharma2021_MedFuseNet,
