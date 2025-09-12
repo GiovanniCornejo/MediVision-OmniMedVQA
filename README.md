@@ -11,7 +11,7 @@ We will:
 - Implement **image-only** and **text-only** baselines.
 - Reproduce an existing multimodal method from the literature.
 - Develop and evaluate our own multimodal fusion model.
-- Compare approaches across **classification**, **detection**, **regression**, and **report generation** tasks.
+- Compare approaches across **classification** tasks.
 
 ### 🩺 Dataset
 
