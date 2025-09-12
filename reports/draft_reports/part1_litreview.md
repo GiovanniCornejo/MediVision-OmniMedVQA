@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Multimodal classifiers combine information from multiple sources, such as images and text, to improve prediction accuracy. Accurate clinical diagnosis often requires combining imaging studies (e.g. chest X-rays, CT scans) with textual information such as radiology reports or clinical notes [@Haq2025_Advancements_MMML_Radiology]. These modalities offer complementary insights: images capture visual manifestations of disease, while text provides clinical context and explicit findings.
+Multimodal classifiers combine multiple sources, such as images and text, to improve prediction accuracy. Clinical diagnosis often requires integrating imaging studies (e.g., chest X-rays, CT scans) with textual information like radiology reports or clinical notes [@Haq2025_Advancements_MMML_Radiology]. These modalities offer complementary insights: images capture visual manifestations of disease, while text provides clinical context and explicit findings.
 
-Studies suggest that models integrating vision and text yield more robust classifiers than uni-modal models [@Sun2023_MultimodalReview]. For example, a report might explicitly mention a characteristic that is subtle on the X-ray, guiding the model’s attention to that finding. Conversely, the image can disambiguate vague textual descriptions. By fusing both sources, multimodal classifiers can improve disease prediction. This review surveys such methods, focusing on fusion strategies (early/late/joint), pretrained vision–language backbones (e.g. CLIP, LLaVA, Flamingo) and contrastive learning, and highlights representative datasets, benchmark results, and ongoing challenges.
+Models integrating vision and text outperform uni-modal models [@Sun2023_MultimodalReview]. For instance, textual reports can highlight subtle findings on X-rays, guiding attention, while images can clarify vague text. By fusing both sources, classifiers improve disease prediction. This review surveys methods focusing on fusion strategies (early/late/joint), pretrained vision–language backbones (CLIP, LLaVA, Flamingo), contrastive learning, representative datasets, benchmark results, and ongoing challenges.
 
 ## 2. Existing Approaches
 
@@ -30,11 +30,9 @@ Methods for multimodal classification differ in how they merge image and text fe
 - Late fusion (decision-level) combines outputs of independent image-only and text-only classifiers.
 - Joint fusion architectures allow deep cross-modal interaction via shared latent spaces or attention mechanisms.
 
-For example, Gapp et al. fuse chest X-ray and report embeddings using a LLaMA-II backbone, exploring early, late, and mixed fusion pipelines for thoracic disease classification [@Gapp2024_LLaMA2Med]. Vision-language transformers such as Med-Flamingo [@Moor2023_MedFlamingo] also merge modalities via cross-attention layers, which allow the model to weigh relevant text features for each image region, enabling more nuanced multimodal reasoning. LLaVA-Med [@Li2023_LLaVA_Med] uses a projection/prefix-style fusion. Collaborative strategies, such as those proposed in CoD-VQA [@Lu2024CoDVQA], can mitigate modality-specific biases by leveraging richer modalities to enhance underrepresented ones, an approach that offers insights for robust medical multimodal fusion.
+For example, Gapp et al. fuse chest X-ray and report embeddings using a LLaMA-II backbone, exploring early, late, and mixed fusion pipelines for thoracic disease classification [@Gapp2024_LLaMA2Med]. Vision-language transformers like Med-Flamingo use cross-attention to weigh relevant text for each image region [@Moor2023_MedFlamingo] LLaVA-Med [@Li2023_LLaVA_Med] uses a projection/prefix-style fusion. CoD-VQA leverages richer modalities to enhance underrepresented ones, reducing modality-specific bias [@Lu2024CoDVQA].
 
-Large VLMs such as BiomedCLIP and OpenFlamingo perform competitively across multiple datasets in zero- or few-shot settings without requiring fine-tuning [@Van2024_LargeVLMsMed], and Med-Flamingo adapts quickly to new radiology tasks in few-shot scenarios [@Moor2023_MedFlamingo]. These strategies use complementary data to boost accuracy, although they require carefully aligned training data and can be sensitive to modality-specific noise.
-
-Moreover, fusion-based architectures can be further enhanced through contrastive pretraining, which produces robust cross-modal embeddings and facilitates zero- or few-shot adaptation for downstream classification.
+Large VLMs such as BiomedCLIP and OpenFlamingo achieve strong zero-/few-shot performance without fine-tuning [@Van2024_LargeVLMsMed], and Med-Flamingo adapts quickly to new radiology tasks [@Moor2023_MedFlamingo]. These strategies use complementary data to boost accuracy, although they require carefully aligned training data and can be sensitive to modality-specific noise.
 
 #### Contrastive Representation Learning
 
