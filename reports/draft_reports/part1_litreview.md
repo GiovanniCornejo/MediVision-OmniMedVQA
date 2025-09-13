@@ -6,7 +6,7 @@ Multimodal classifiers combine multiple sources, such as images and text, to imp
 
 Models integrating vision and text outperform uni-modal models [@Sun2023_MultimodalReview]. For instance, textual reports can highlight subtle findings on X-rays, guiding attention, while images can clarify vague text. By fusing both sources, classifiers improve disease prediction. This review surveys methods focusing on fusion strategies (early/late/joint), pretrained vision–language backbones (CLIP, LLaVA, Flamingo), contrastive learning, representative datasets, benchmark results, and ongoing challenges.
 
-## 2. Existing Approaches
+## Existing Approaches
 
 ### Image-only Classification Methods (TODO)
 
