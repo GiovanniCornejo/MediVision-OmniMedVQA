@@ -8,11 +8,9 @@ Models integrating vision and text outperform uni-modal models [@Sun2023_Multimo
 
 ## Existing Approaches
 
-### Image-only Classification Methods (TODO)
+### Image-only Classification Methods
+Disease detection using only images of the area of concern can yield high performance, but such methods cannot incorporate additional text-based features—such as patient history—that often help doctors make better diagnoses. CheXNet [@Rajpurkar2017_CheXNet] is a deep learning Convolutional Neural Network (CNN) architecture to diagnose pneumonia using chest X-rays. The model is a 121-layer CNN that can output the probability of pneumonia. CheXNet yielded a strong performance in pneumonia classification, outperforming radiologist performance on the same dataset. However, while CNNs can yield strong performance on image classification tasks, they cannot incorporate patient history. CheXNet can highlight areas of an X-ray which indicate the pathology identified, explaining its classification decision. Vision transformers (ViT) can also be used to detect diseases using imaging. A ViT was trained on detecting Alzheimer's disease using brain imaging achieving nearly 96.2% accuracy on the test set [@Lyu2022_ViT_AD]. ViTs can achieve strong performance as they learn using patches of the images to learn relationships between the patches. It outperforms a pretrained CNN model, ResNet18, achieving a 88.5% accuracy on the same test set [@Lyu2022_ViT_AD]. However, ViTs are very deep transformer models and require a significantly large dataset for pretraining. Training on a modest size dataset would lead to overfitting. Like CNNs, ViTs also cannot incorporate text-based features such as the patient's history.
 
-- CNN/ViT-based models applied to medical imaging classification tasks.
-- Strengths: strong visual pattern recognition.
-- Limitations: cannot incorporate textual or clinical context, limiting performance on complex cases.
 
 ### Text-only Classification Methods (TODO)
 
@@ -72,7 +70,7 @@ Key challenges remain in multimodal medical classification:
 Addressing these gaps is an active research area. For example, retrieval-augmented models like MMed-RAG incorporate external knowledge to reduce hallucination [@Xia2025_MMedRAG]. Expanding multimodal datasets and developing techniques to interpret multimodal reasoning will be key to deploying reliable clinical classifiers in practice.
 
 ## Conclusion (TODO)
-
+Image based classification can yield very strong results in detecting diseases using imaging. CNNs and ViTs can identify patterns in images that indicate the presence of a pathology. But other relevant textual features, such as the patient history, cannot be incorporated into a image based classifier [@Rajpurkar2017_CheXNet]. 
 - Image-only and text-only models are limited for multimodal classification tasks.
 - Fusion-based multimodal methods outperform unimodal approaches, but generalization and interpretability challenges remain.
 - Motivates your group’s work: developing and benchmarking novel multimodal classifiers for FLARE25, with a focus on both single-label and multi-label classification.
