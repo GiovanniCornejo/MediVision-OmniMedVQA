@@ -584,3 +584,49 @@
   - Section 2.3: Fusion strategies and multimodal VQA/retrieval methods.
   - Section 3: Report generation and CAD as emerging classification-related tasks.
   - Section 4: Research gaps in datasets, interpretability, and fairness.
+
+### Notes on [Development and Validation of a Radiomics Nomogram for Predicting Clinically Significant Prostate Cancer in PI-RADS 3 Lesions](https://pmc.ncbi.nlm.nih.gov/articles/PMC8825569/)
+
+A concrete example of building a radiomics signature then combining it with clinical variables (LASSO feature selection → logistic regression nomogram). Good template for "classical fusion → clinical prediction."
+
+### Notes on [Effectiveness of CT radiomic features combined with clinical factors in predicting prognosis in patients with limited-stage small cell lung cancer](https://pmc.ncbi.nlm.nih.gov/articles/PMC10838455/)
+
+Recent applied study showing radiomics+clinical outperforming either alone.
+
+### Notes on [Research on the Application of Support Vector Machine Algorithm Model with Multi-Modal Data Fusion in Breast Cancer Ultrasound Image Classification](https://ieeexplore.ieee.org/document/10729510)
+
+- Algorithm: Uses SVM (Support Vector Machine), a classical ML classifier.
+- Fusion strategy: Combines handcrafted features from breast ultrasound, CT, PET data for classic multimodal fusion.
+- Feature engineering: Mentions eigenvalues, variable precision rough sets (VPRS), redundancy reduction, and mutation operators; clear evidence of manual feature construction and selection rather than deep learned representations.
+- Evaluation: Focuses on generalization ability and stability improvements, which are central to non-deep methods.
+
+@INPROCEEDINGS{Peng2024_SVM_BreastCancer,
+author = {Lai Peng and Qian Leng},
+title = {Research on the Application of Support Vector Machine Algorithm Model with Multi-Modal Data Fusion in Breast Cancer Ultrasound Image Classification},
+booktitle = {Proceedings of the 2024 IEEE 2nd International Conference on Sensors, Electronics and Computer Engineering (ICSECE)},
+pages = {679--683},
+year = {2024},
+doi = {10.1109/ICSECE61636.2024.10729510},
+keywords = {Support vector machine, multimodal fusion, breast cancer, ultrasound, medical image processing}
+}
+
+### Notes on [Radiomics in breast cancer classification and prediction](https://www.sciencedirect.com/science/article/abs/pii/S1044579X20300833?via%3Dihub)
+
+Radiomics itself is often a handcrafted feature extraction approach: it computes quantitative features (shape, texture, intensity, wavelets, etc.) from images rather than learning them automatically through a neural network. This aligns with classical pattern-recognition techniques.
+
+In breast cancer, radiomics can combine multiple imaging modalities (mammography, MRI, ultrasound), which makes it multimodal, even if the fusion is done via feature concatenation or statistical models rather than deep learning.
+
+Applications include classification, prognosis, and treatment response prediction, often using machine learning models such as SVMs, random forests, or logistic regression rather than deep networks.
+
+@article{CONTI2021238,
+title = {Radiomics in breast cancer classification and prediction},
+journal = {Seminars in Cancer Biology},
+volume = {72},
+pages = {238-250},
+year = {2021},
+note = {Precision Medicine in Breast Cancer},
+issn = {1044-579X},
+doi = {https://doi.org/10.1016/j.semcancer.2020.04.002},
+url = {https://www.sciencedirect.com/science/article/pii/S1044579X20300833},
+author = {Allegra Conti and Andrea Duggento and Iole Indovina and Maria Guerrisi and Nicola Toschi},
+}
