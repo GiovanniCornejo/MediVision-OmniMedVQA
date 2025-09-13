@@ -1,4 +1,4 @@
-# Multimodal Medical Classification in Clinical Diagnostics
+# Multimodal Medical Classification
 
 ## Introduction
 
