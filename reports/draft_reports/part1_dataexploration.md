@@ -21,7 +21,15 @@ An example from the dataset covid 19 is shown below:
 ![covid-imaging-qa](/assets/covid-imaging-qa.png)
 
 Different modalities for imaging are used across all datasets but the same problem type can appear across different datasets. 
-## Challenges (TODO)
+## Challenges
+
+![one-ex-answer-distr](/assets/one-ex-answer-distr.png)
+![answer-uniformity](/assets/answer-uniformity.png)
+Many of the questions show highly skewed answer distributions, with one option dominating while others are rarely chosen. This strong answer bias makes the data harder to interpret and can lead models to overfit to the majority choice rather than learning meaningful patterns.
+
+![images-per-class](/assets/images-per-class.png)
+![questions-per-dataset](/assets/questions-per-dataset.png)
+Even in the questions and images we can see large numbers of class imbalance. For example, RadImageNet accounts for 55k questions and images with the next closest one being 10k and 3k per plot respectively. Such imbalance makes it harder for models to learn meaningful patterns from underrepresented classes.
 
 ## References
 
