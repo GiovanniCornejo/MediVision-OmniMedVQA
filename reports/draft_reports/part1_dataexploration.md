@@ -1,6 +1,6 @@
- # Data Exploration of OmniMedVQA
+# Data Exploration of OmniMedVQA
 
- ## Introduction (TODO)
+## Introduction (TODO)
 We are using the dataset OmniMedVQA which contains over 100,000+ images and question answer (qa) items from 73 different medical datasets [@hu2024omnimedvqa]. Examining the dataset finds that the dataset contains [Todo: number of classes for question] classes of questions over all datasets. 
 
 ## Dataset Statistics (TODO)
