@@ -9,18 +9,18 @@ We are using the dataset OmniMedVQA which contains over 100,000+ images and ques
 - The number of images in each datset
 - 
 
-## Visual Question Answering Examples (TODO)
+## Visual Question Answering Examples
 
-The two examples of visual question answering from the pulmonary Chest MC dataset.  
+The two examples of visual question answering below are from the pulmonary Chest MC dataset.  
 ![chest-disease-qa](/assets/chest-disease-qa.png)
 ![chest-imaging-qa](/assets/chest-imaging-qa.png)
 
-The dataset includes diversity in the problem type within each dataset. The first image presents a modality question, which asks about the imaging technique used (such as X-ray, CT, or MRI), while the second image is a disease diagnosis question. All qa items include multiple options relevant to the question posed, the ground truth, and the modality for the image. 
+Within each dataset, there is a diversity in the types of questions being asked for a given image. The first image presents a modality question, which asks about the imaging technique used (such as X-ray, CT, or MRI), while the second image is a disease diagnosis question. All VQA items include multiple options relevant to the question posed, the ground truth, and the modality for the image. 
 
 An example from the dataset covid 19 is shown below:
 ![covid-imaging-qa](/assets/covid-imaging-qa.png)
 
-Different modalities for imaging are used across all datasets but the same problem type can appear across different datasets. 
+Different modalities for imaging are used across all datasets but the same problem type can appear across different datasets. Questions are framed similarily across datasets creating consistency in the OmniMedVQA dataset.  
 ## Challenges
 
 ![one-ex-answer-distr](/assets/one-ex-answer-distr.png)
