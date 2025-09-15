@@ -28,9 +28,25 @@ Less common types such as Other Biological Attributes (3,498) and Lesion Grading
 
 ### Ground Truth Answer Distribution
 
-- Modality Recognition: Dominated by MRI (3,541) and CT (1,817); rare answers like Histopathology. (8) appear only a few times.
-- Disease Diagnosis: Skewed towards "No" (3,784) and "No, It's normal." (3,664), with rare diagnoses appearing only once.
-- Other question types: Similar long-tail distributions exist, highlighting potential challenges in modeling rare answers.
+Some question types are heavily skewed toward a few frequent answers:
+
+- Disease Diagnosis: `No` and `No, It's normal.` account for ~7,400 QA items.
+- Modality Recognition: `MRI` and `CT` dominate.
+
+Some question types also contains answers that appear very rarely (sometimes only once). For example:
+
+- Modality Recognition: "Histopathology." appears 8 times.
+- Disease Diagnosis: "Fundus neoplasm" appears once.
+
+This sparsity could make learning on rare classes challenging.
+
+Some semantically identical answers differ in punctuation, capitalization, or minor wording, e.g.:
+
+- `x_ray.` vs `X-ray`
+- `Dermoscopic imaging` vs `Dermoscopy` vs `Dermoscopy.`
+- `Fundus photography` vs `fundus photography.` vs `fundus photography`
+
+Preprocessing steps such as lowercasing, stripping punctuation, and mapping variants to canonical forms may be beneficial. Despite the long-tail and answer variability, all major modalities and question types are represented, which is promising for building a generalizable multimodal model.
 
 ### Dataset-Level Distribution
 
