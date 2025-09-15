@@ -64,9 +64,9 @@ Although there is a skew toward MR and CT, all clinically relevant modalities ar
 
 ## Visual Question Answering Examples
 
-![Modailty question from pulmonary chest dataset](assets/chest-disease-qa.png){width=60% }
+![Modailty question from pulmonary chest dataset](assets/chest-disease-qa.png)
 
-![Disease question from pulmonary chest dataset](assets/chest-imaging-qa.png){width=60% }
+![Disease question from pulmonary chest dataset](assets/chest-imaging-qa.png)
 
 Within each dataset, there is a diversity in the types of questions being asked for a given image. The first image presents a modality question, which asks about the imaging technique used (such as X-ray, CT, or MR), while the second image is a disease diagnosis question. All VQA items include multiple options relevant to the question posed, the ground truth, and the modality for the image.
 
