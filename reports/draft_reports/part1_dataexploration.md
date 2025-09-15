@@ -64,14 +64,13 @@ Although there is a skew toward MR and CT, all clinically relevant modalities ar
 
 ## Visual Question Answering Examples
 
-The two examples of visual question answering below are from the pulmonary Chest MC dataset.  
-![chest-disease-qa](assets/chest-disease-qa.png)
-![chest-imaging-qa](assets/chest-imaging-qa.png)
+![Modailty question from pulmonary chest dataset](assets/chest-disease-qa.png){width=60% }
+
+![Disease question from pulmonary chest dataset](assets/chest-imaging-qa.png){width=60% }
 
 Within each dataset, there is a diversity in the types of questions being asked for a given image. The first image presents a modality question, which asks about the imaging technique used (such as X-ray, CT, or MR), while the second image is a disease diagnosis question. All VQA items include multiple options relevant to the question posed, the ground truth, and the modality for the image.
 
-This example is from a covid imaging dataset.
-![covid-imaging-qa](assets/covid-imaging-qa.png)
+![Anatomy question from blood cell datset](assets/blood-disease-qa.png)
 
 Different modalities for imaging are used across all datasets but the same problem type can appear across different datasets. Questions are framed similarly across datasets creating consistency in the OmniMedVQA dataset. We also see that the quality of imaging can vary between datasets. Some of the images are high quality images using technology such as X-ray or a CT scan. But some of the images are camera pictures of human subjects with some background of the environment. In this example it is a picture taken of the output from a microscope. From the examples seen the text length of questions are short and direct with answer options being just a few words.
 
