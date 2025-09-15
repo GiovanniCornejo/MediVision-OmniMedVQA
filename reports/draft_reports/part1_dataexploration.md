@@ -20,7 +20,7 @@ We automatically correct this entry so that `modality` is renamed to `modality_t
 
 ### Question Type Distribution
 
-![Question Type Distribution](/assets/question_type_distribution.png)
+![Question Type Distribution](assets/question_type_distribution.png)
 
 The dataset is heavily dominated by Disease Diagnosis (55,387 items), followed by Anatomy Identification (16,448) and Modality Recognition (11,565).
 
@@ -50,13 +50,13 @@ Preprocessing steps such as lowercasing, stripping punctuation, and mapping vari
 
 ### Dataset-Level Distribution
 
-![Number of QA Items per Dataset](/assets/number_of_qa_items_per_dataset.png)
+![Number of QA Items per Dataset](assets/number_of_qa_items_per_dataset.png)
 
 While RadImageNet alone contributes 56,697 QA items (>60% of the total), several datasets at the bottom (e.g., Pulmonary Chest MC with 38 items) are very small. This imbalance in datasets isn't necessarily an issue as long as all modalities are adequately represented.
 
 ### Modalities
 
-![Distribution of Modalities](/assets/distribution_of_modalities_pie_chart.png)
+![Distribution of Modalities](assets/distribution_of_modalities_pie_chart.png)
 
 The OmniMedVQA dataset includes 8 distinct modalities. While MRI (Magnetic Resonance Imaging) dominates with ~35.8% of QA items, followed by CT (~17.8%) and Ultrasound (~12.3%), the less frequent modalities such as OCT (5.2%), Fundus Photography (6.1%), and Microscopy Images (7.5%) still have a substantial number of QA items (4,646–5,680), which should be sufficient for model training.
 
