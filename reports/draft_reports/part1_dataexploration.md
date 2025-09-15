@@ -33,7 +33,7 @@ Some question types are heavily skewed toward a few frequent answers:
 - Disease Diagnosis: `No` and `No, It's normal.` account for ~7,400 QA items.
 - Modality Recognition: `MRI` and `CT` dominate.
 
-Some question types also contains answers that appear very rarely (sometimes only once). For example:
+Some question types also contain answers that appear very rarely (sometimes only once). For example:
 
 - Modality Recognition: "Histopathology." appears 8 times.
 - Disease Diagnosis: "Fundus neoplasm" appears once.
