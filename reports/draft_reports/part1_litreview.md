@@ -72,6 +72,7 @@ Addressing these gaps is an active research area. For example, retrieval-augment
 CNNs and ViTs can identify patterns in images that indicate the presence of a pathology. However, other relevant textual features, such as patient history, cannot be incorporated into an image-based classifier [@Rajpurkar2017_CheXNet]. Standalone text-only models also cannot classify diseases with high accuracy, as seen in [@Tu2025_AMIE]. 
 
 Using both text and images adds valuable context for improved prediction on medical datasets. Multimodal approaches include VLMs that accept image and text tokens in a single sequence [@Moor2023_MedFlamingo], as well as models with dedicated layers for text, image, and their fusion. Our work on predicting answers for images and questions in the OmniMedVQA [@hu2024omnimedvqa] motivates our exploration of using multimodal models to incorporate all available information for prediction.
+
 ## References
 
-[//]: <> (Will be auto-populated with `pandoc reports/draft_reports/part1_litreview.md --citeproc --bibliography=references.bib --csl=ieee.csl  -o deliverables/part1/part1_litreview.html`...)
+[//]: <> (Will be auto-populated with `pandoc reports/draft_reports/part1_litreview.md --citeproc --bibliography=references.bib --csl=ieee.csl  -o deliverables/part1/part1_litreview.html`... `pandoc reports/draft_reports/part1_litreview.md -o deliverables/part1/part1_litreview.pdf --pdf-engine=xelatex --citeproc --bibliography=references.bib --csl=ieee.csl -V classoption=twocolumn -V geometry:top=0.75in -V geometry:bottom=0.75in -V geometry:left=0.75in -V geometry:right=0.75in -V fontsize=10pt`)
