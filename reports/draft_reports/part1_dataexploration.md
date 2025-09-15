@@ -73,7 +73,7 @@ Within each dataset, there is a diversity in the types of questions being asked 
 This example is from a covid imaging dataset.
 ![covid-imaging-qa](assets/covid-imaging-qa.png)
 
-Different modalities for imaging are used across all datasets but the same problem type can appear across different datasets. Questions are framed similarily across datasets creating consistency in the OmniMedVQA dataset. We also see that the quality of imaging can vary between datasets. Some of the images are high quality images using technology such as X-ray or a CT scan. But some of the images are camera pictures of human subjects with some background of the environment. In this example it is a picture taken of the output from a microscope. From the examples seen the text length of questions are short and direct with answer options being just a few words.
+Different modalities for imaging are used across all datasets but the same problem type can appear across different datasets. Questions are framed similarly across datasets creating consistency in the OmniMedVQA dataset. We also see that the quality of imaging can vary between datasets. Some of the images are high quality images using technology such as X-ray or a CT scan. But some of the images are camera pictures of human subjects with some background of the environment. In this example it is a picture taken of the output from a microscope. From the examples seen the text length of questions are short and direct with answer options being just a few words.
 
 ## Challenges
 
