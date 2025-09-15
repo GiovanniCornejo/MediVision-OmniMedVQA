@@ -50,14 +50,17 @@ Preprocessing steps such as lowercasing, stripping punctuation, and mapping vari
 
 ### Dataset-Level Distribution
 
-- Top datasets: RadImageNet (56,697 QA items), Retinal OCT-C8 (4,016)
-- Least represented datasets: Pulmonary Chest MC (38 QA items), NLM Malaria (75)
+![Number of QA Items per Dataset](/assets/number_of_qa_items_per_dataset.png)
 
-Dataset imbalance may affect model performance on small datasets but all modalities are represented.
+While RadImageNet alone contributes 56,697 QA items (>60% of the total), several datasets at the bottom (e.g., Pulmonary Chest MC with 38 items) are very small. This imbalance in datasets isn't necessarily an issue as long as all modalities are adequately represented.
 
 ### Modalities
 
-MR and CT dominate, but all major clinical modalities are represented.
+![Distribution of Modalities](/assets/distribution_of_modalities_pie_chart.png)
+
+The OmniMedVQA dataset includes 8 distinct modalities. While MRI (Magnetic Resonance Imaging) dominates with ~35.8% of QA items, followed by CT (~17.8%) and Ultrasound (~12.3%), the less frequent modalities such as OCT (5.2%), Fundus Photography (6.1%), and Microscopy Images (7.5%) still have a substantial number of QA items (4,646–5,680), which should be sufficient for model training.
+
+Although there is a skew toward MR and CT, all clinically relevant modalities are represented, reducing the risk that models will completely ignore underrepresented modalities. However, care may still be needed to ensure that rare modalities are weighted during training or evaluation.
 
 ## Visual Question Answering Examples
 
