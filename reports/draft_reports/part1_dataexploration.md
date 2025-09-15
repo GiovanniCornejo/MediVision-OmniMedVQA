@@ -31,7 +31,7 @@ Less common types such as Other Biological Attributes (3,498) and Lesion Grading
 Some question types are heavily skewed toward a few frequent answers:
 
 - Disease Diagnosis: `No` and `No, It's normal.` account for ~7,400 QA items.
-- Modality Recognition: `MRI` and `CT` dominate.
+- Modality Recognition: `MR` and `CT` dominate.
 
 Some question types also contain answers that appear very rarely (sometimes only once). For example:
 
@@ -58,7 +58,7 @@ While RadImageNet alone contributes 56,697 QA items (>60% of the total), several
 
 ![Distribution of Modalities](assets/distribution_of_modalities_pie_chart.png)
 
-The OmniMedVQA dataset includes 8 distinct modalities. While MRI (Magnetic Resonance Imaging) dominates with ~35.8% of QA items, followed by CT (~17.8%) and Ultrasound (~12.3%), the less frequent modalities such as OCT (5.2%), Fundus Photography (6.1%), and Microscopy Images (7.5%) still have a substantial number of QA items (4,646–5,680), which should be sufficient for model training.
+The OmniMedVQA dataset includes 8 distinct modalities. While MR dominates with ~35.8% of QA items, followed by CT (~17.8%) and Ultrasound (~12.3%), the less frequent modalities such as OCT (5.2%), Fundus Photography (6.1%), and Microscopy Images (7.5%) still have a substantial number of QA items (4,646–5,680), which should be sufficient for model training.
 
 Although there is a skew toward MR and CT, all clinically relevant modalities are represented, reducing the risk that models will completely ignore underrepresented modalities. However, care may still be needed to ensure that rare modalities are weighted during training or evaluation.
 
@@ -68,7 +68,7 @@ The two examples of visual question answering below are from the pulmonary Chest
 ![chest-disease-qa](assets/chest-disease-qa.png)
 ![chest-imaging-qa](assets/chest-imaging-qa.png)
 
-Within each dataset, there is a diversity in the types of questions being asked for a given image. The first image presents a modality question, which asks about the imaging technique used (such as X-ray, CT, or MRI), while the second image is a disease diagnosis question. All VQA items include multiple options relevant to the question posed, the ground truth, and the modality for the image.
+Within each dataset, there is a diversity in the types of questions being asked for a given image. The first image presents a modality question, which asks about the imaging technique used (such as X-ray, CT, or MR), while the second image is a disease diagnosis question. All VQA items include multiple options relevant to the question posed, the ground truth, and the modality for the image.
 
 This example is from a covid imaging dataset.
 ![covid-imaging-qa](assets/covid-imaging-qa.png)
