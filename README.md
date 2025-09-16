@@ -127,13 +127,13 @@ MediVision-Flare25/
 ├── .gitattributes
 │
 ├── notebooks/                <- Jupyter notebooks for different project stages
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_data_exploration.ipynb
-│   ├── 03_data_exploration.ipynb
-│   ├── 04_baselines.ipynb
-│   ├── 05_multimodal_model.ipynb
-│   ├── 06_experiments.ipynb
-│   └── 07_results_analysis.ipynb
+│   ├── 01_part1_data_exploration.ipynb
+│   ├── 01_part2_data_exploration.ipynb
+│   ├── 01_part3_data_exploration.ipynb
+│   ├── 02_baselines.ipynb
+│   ├── 03_multimodal_model.ipynb
+│   ├── 04_experiments.ipynb
+│   └── 05_results_analysis.ipynb
 │
 ├── src/                      <- Modular Python code
 │   ├── __init__.py
