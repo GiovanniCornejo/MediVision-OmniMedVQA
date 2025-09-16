@@ -136,7 +136,7 @@ MediVision-Flare25/
 │   └── 04_results_analysis.ipynb
 │
 ├── src/                      <- Modular Python code
-│   ├── __init__.py
+│   ├── config.py             <- Project-wide constants
 │   ├── data.py               <- Dataset loading / preprocessing
 │   ├── models.py             <- Baseline + multimodal model architectures
 │   ├── train.py              <- Training loop functions
