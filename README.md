@@ -128,10 +128,12 @@ MediVision-Flare25/
 │
 ├── notebooks/                <- Jupyter notebooks for different project stages
 │   ├── 01_data_exploration.ipynb
-│   ├── 02_baselines.ipynb
-│   ├── 03_multimodal_model.ipynb
-│   ├── 04_experiments.ipynb
-│   └── 05_results_analysis.ipynb
+│   ├── 02_data_exploration.ipynb
+│   ├── 03_data_exploration.ipynb
+│   ├── 04_baselines.ipynb
+│   ├── 05_multimodal_model.ipynb
+│   ├── 06_experiments.ipynb
+│   └── 07_results_analysis.ipynb
 │
 ├── src/                      <- Modular Python code
 │   ├── __init__.py
@@ -141,7 +143,7 @@ MediVision-Flare25/
 │   └── evaluate.py           <- Evaluation metrics & utilities
 │
 ├── data/                     <- (Gitignored) placeholder for datasets
-│   └── README.md             <- Instructions for downloading FLARE25
+│   └── README.md             <- Instructions for downloading
 │
 ├──experiments/               <- Configs & logs
 │   ├── configs/              <- JSON/YAML configs for experiments
