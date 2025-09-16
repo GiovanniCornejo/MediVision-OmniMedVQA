@@ -1,7 +1,8 @@
 import os
 
 # ------------------------------- Dataset Paths ------------------------------ #
-DATA_DIR = os.path.join(".", "data", "OmniMedVQA")
+DEFAULT_DATA_DIR = os.path.join(".", "data", "OmniMedVQA")
+DATA_DIR = os.environ.get("OMNIMEDVQA_DIR", DEFAULT_DATA_DIR) # Allow overriding via environment variable
 QA_DIR = os.path.join(DATA_DIR, "QA_information", "Open-access")
 IMG_DIR = os.path.join(DATA_DIR, "Images")
 
