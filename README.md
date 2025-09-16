@@ -65,6 +65,22 @@ pip install ipykernel
 python -m ipykernel install --user --name=medivision --display-name "Python (medivision)"
 ```
 
+### 📂 Data Directory Setup
+
+By default, the project expects datasets to be stored under `MediVision-Flare25/data/`. This path is relative to the repo root, so make sure your **current working directory** is the repo front when running Jupyter notebooks or Python scripts:
+
+```bash
+cd Medivision-Flare25
+jupyter notebook .
+```
+
+If you want to keep the dataset elsewhere, you can override the default path by setting the environment variable `OMNIMEDVQA_DATA_DIR`. For example:
+
+```bash
+export OMNIMEDVQA_DATA_DIR=~/datasets/OmniMedVQA # Linux/Mac
+$env:OMNIMEDVQA_DATA_DIR="D:\Datasets\OmniMedVQA" # Windows
+```
+
 ### 🧰 Dependencies
 
 This project relies on the following Python packages:
