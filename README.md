@@ -130,10 +130,10 @@ MediVision-Flare25/
 │   ├── 01_part1_modality_analysis.ipynb
 │   ├── 01_part2_visualizing_examples.ipynb
 │   ├── 01_part3_dataset_challenges.ipynb
-│   ├── 02_baselines.ipynb
-│   ├── 03_multimodal_model.ipynb
-│   ├── 04_experiments.ipynb
-│   └── 05_results_analysis.ipynb
+│   ├── 02_part1_baselines.ipynb
+│   ├── 02_part2_reproduce_multimodal.ipynb
+│   ├── 03_experiments.ipynb
+│   └── 04_results_analysis.ipynb
 │
 ├── src/                      <- Modular Python code
 │   ├── __init__.py
