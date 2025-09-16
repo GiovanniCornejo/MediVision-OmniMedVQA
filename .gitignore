@@ -29,10 +29,6 @@ data/
 experiments/logs/
 *.log
 
-# Figures / reports
-reports/figures/
-reports/tables/
-
 # OS files
 .DS_Store
 Thumbs.db
