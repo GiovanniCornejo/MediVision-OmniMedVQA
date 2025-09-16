@@ -127,9 +127,9 @@ MediVision-Flare25/
 ├── .gitattributes
 │
 ├── notebooks/                <- Jupyter notebooks for different project stages
-│   ├── 01_part1_data_exploration.ipynb
-│   ├── 01_part2_data_exploration.ipynb
-│   ├── 01_part3_data_exploration.ipynb
+│   ├── 01_part1_modality_analysis.ipynb
+│   ├── 01_part2_visualizing_examples.ipynb
+│   ├── 01_part3_dataset_challenges.ipynb
 │   ├── 02_baselines.ipynb
 │   ├── 03_multimodal_model.ipynb
 │   ├── 04_experiments.ipynb
