@@ -1,24 +1,26 @@
-# MediVision-Flare25
+# MediVision-OmniMedVQA
 
 ## 📌 Project Overview
 
-**MediVision-Flare25** is a research project exploring **multimodal medical classification** using the [FLARE 2025 Medical Multimodal Dataset](https://huggingface.co/datasets/FLARE-MedFM/FLARE-Task5-MLLM-2D).
+**MediVision-OmniMedVQA** is a research project exploring **multimodal medical classification** using the [OmniMedVQA benchmark](https://huggingface.co/datasets/foreverbeliever/OmniMedVQA).
 
 The goal is to design, benchmark, and evaluate models that combine **medical imaging** (vision) with **textual clinical context** (language) to improve diagnostic accuracy, interpretability, and robustness.
 
-We will:
+Our goal is to:
 
 - Implement **image-only** and **text-only** baselines.
 - Reproduce an existing multimodal method from the literature.
-- Develop and evaluate our own multimodal fusion model.
+- Develop and evaluate our own multimodal fusion approach.
 - Compare approaches across **classification** tasks.
 
 ### 🩺 Dataset
 
-Flare25 contains ~51,000 medical images and ~58,000 associated question-answer pairs across a variety of medical imaging modalities.
+The _full_ OmniMedVQA contains ~118,000 medical images and ~128,000 associated question-answer pairs spanning 73 datasets and 12 different medical imaging modalities. However, only the open-access portion is included here — restricted-access datasets require applying for access directly from their original sources.
 
-- **Modalities**: Clinical, Dermatology, Endoscopy, Mammography, Microscopy, Retinography, Ultrasound, X-ray
-- **Tasks**: Classification, Counting, Detection, Multi-label Classification, Regression, Report Generation
+The open-access subset of OmniMedVQA includes ~82,000 medical images and ~89,000 question–answer pairs, covering 42 publicly available datasets. This subset provides broad coverage across diverse imaging modalities and clinical question types while remaining accessible without special permissions.
+
+- **Modalities**: MR (Mag-netic Resonance Imaging), CT (Computed Tomography), Ultrasound, X-Ray, Dermoscopy, Microscopy Images, Fundus Photography, OCT (Optical Coherence Tomography)
+- **Question Types**: Disease Diagnosis, Anatomy Identification, Modality Recognition, Other Biological Attributes, Lesion Grading
 
 > **Note**: You will need to manually download the dataset from the official source.
 
@@ -29,8 +31,8 @@ We recommend creating a dedicated Python environment to ensure reproducibility. 
 1. Clone the repository
 
 ```bash
-git clone https://github.com/GiovanniCornejo/MediVision-Flare25.git
-cd MediVision-Flare25
+git clone https://github.com/GiovanniCornejo/MediVision-OmniMedVQA.git
+cd MediVision-OmniMedVQA
 ```
 
 2. Create a new environment
@@ -67,10 +69,10 @@ python -m ipykernel install --user --name=medivision --display-name "Python (med
 
 ### 📂 Data Directory Setup
 
-By default, the project expects datasets to be stored under `MediVision-Flare25/data/`. This path is relative to the repo root, so make sure your **current working directory** is the repo front when running Jupyter notebooks or Python scripts:
+By default, the project expects datasets to be stored under `MediVision-OmniMedVQA/data/`. This path is relative to the repo root, so make sure your **current working directory** is the repo front when running Jupyter notebooks or Python scripts:
 
 ```bash
-cd Medivision-Flare25
+cd Medivision-OmniMedVQA
 jupyter notebook .
 ```
 
@@ -134,7 +136,7 @@ python src/evaluate.py --config experiments/configs/baseline_image.json
 ## 🏗️ Repository Structure
 
 ```
-MediVision-Flare25/
+MediVision-OmniMedVQA/
 │
 ├── README.md                 <- Project overview, setup instructions
 ├── references.bib            <- BibTeX file with all references and notes
@@ -186,7 +188,7 @@ MediVision-Flare25/
 
 ### 🔬 1. Data Exploration & Literature Review
 
-- [ ] Load and explore FLARE25 dataset using Hugging Face
+- [ ] Load and explore OmniMedVQA dataset using Hugging Face
   - [ ] Inspect folder structure and image formats
   - [ ] Count number of images and questions per modality
 - [ ] Analyze class distributions and modalities
@@ -239,11 +241,11 @@ MediVision-Flare25/
 ## 📚 Citations / References
 
 This project builds upon several datasets, papers, and methods in the multimodal medical AI domain.  
-For a complete list of references, including notes on relevance to this project, see [references.bib](references.bib).
+For a complete list of references, including BibTeX entries, see [references.bib](references.bib).
 
 Key references include:
 
-- **FLARE 2025 Medical Multimodal Dataset** – Main dataset for this project; includes multiple modalities and tasks.
+- **OmniMedVQA, 2024** – Main dataset for this project; includes multiple modalities and question types.
 - **Gapp et al., 2024** – Multimodal disease classification using OpenI X-rays + reports; informs baseline and fusion architecture.
 - **Med-Flamingo, 2023** – Few-shot vision-language learner for medical VQA; inspiration for multimodal training strategies.
 
