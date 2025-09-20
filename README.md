@@ -188,15 +188,15 @@ MediVision-OmniMedVQA/
 
 ### 🔬 1. Data Exploration & Literature Review
 
-- [ ] Load and explore OmniMedVQA dataset using Hugging Face
-  - [ ] Inspect folder structure and image formats
-  - [ ] Count number of images and questions per modality
-- [ ] Analyze class distributions and modalities
-- [ ] Visualize image-text pairs / QA items
-- [ ] Identify dataset challenges (class imbalance, ambiguous prompts, domain differences)
-- [ ] Write Data Exploration report (max 2 pages)
-- [ ] Conduct literature review of multimodal medical classification
-- [ ] Write Literature Review summary (max 2 pages)
+- [x] Load and explore OmniMedVQA dataset using Hugging Face
+  - [x] Inspect folder structure and image formats
+  - [x] Count number of images and questions per modality
+- [x] Analyze class distributions and modalities
+- [x] Visualize image-text pairs / QA items
+- [x] Identify dataset challenges (class imbalance, ambiguous prompts, domain differences)
+- [x] Write Data Exploration report (max 2 pages)
+- [x] Conduct literature review of multimodal medical classification
+- [x] Write Literature Review summary (max 2 pages)
 
 ### 📊 2. Benchmarking
 
