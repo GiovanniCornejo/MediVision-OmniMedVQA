@@ -76,11 +76,15 @@ cd Medivision-OmniMedVQA
 jupyter notebook .
 ```
 
-If you want to keep the dataset elsewhere, you can override the default path by setting the environment variable `OMNIMEDVQA_DATA_DIR`. For example:
+If you want to keep the dataset elsewhere, you can override the default path by setting the environment variable `OMNIMEDVQA_DATA_DIR`. **Important**: the variable must be set in the same terminal session from which you start Jupyter Notebook or run your Python scripts, so the process can see it. For example:
 
 ```bash
-export OMNIMEDVQA_DATA_DIR=~/datasets/OmniMedVQA # Linux/Mac
+cd Medivision-OmniMedVQA
+
+export OMNIMEDVQA_DATA_DIR=~/datasets/OmniMedVQA  # Linux/Mac
 $env:OMNIMEDVQA_DATA_DIR="D:\Datasets\OmniMedVQA" # Windows
+
+jupyter notebook .
 ```
 
 ### 🧰 Dependencies
