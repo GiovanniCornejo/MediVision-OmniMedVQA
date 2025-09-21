@@ -165,7 +165,6 @@ MediVision-OmniMedVQA/
 │   └── evaluate.py           <- Evaluation metrics & utilities
 │
 ├── data/                     <- (Gitignored) placeholder for datasets
-│   └── README.md             <- Instructions for downloading
 │
 ├──experiments/               <- Configs & logs
 │   ├── configs/              <- JSON/YAML configs for experiments
