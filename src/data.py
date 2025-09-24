@@ -4,7 +4,7 @@ import pandas as pd
 from datasets import load_dataset, Dataset
 from sklearn.model_selection import train_test_split
 
-from .config import QA_DIR, SEED, TEST_SPLIT_RATIO, TRAIN_VAL_RATIO
+from .config import QA_DIR, QUESTION_TYPE, SEED, TEST_SPLIT_RATIO, TRAIN_VAL_RATIO
 
 # ---------------------------------------------------------------------------- #
 #                               Helper Functions                               #
@@ -76,6 +76,9 @@ def load_omnimed_dataset(
 
     # Load unified DataFrame
     df: pd.DataFrame = load_dataset_df(json_files) # type: ignore
+
+    # Filter to only Disease Diagnosis if parameter is set
+    df = df[df['question_type'] == QUESTION_TYPE].reset_index(drop=True)
 
     # Get unique images
     unique_images = df['image_path'].unique()
