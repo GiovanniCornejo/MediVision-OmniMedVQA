@@ -19,7 +19,6 @@ medivision/
 *.sublime-project
 
 # Data / large files
-data/
 *.h5
 *.pt
 *.pth
@@ -39,4 +38,5 @@ Thumbs.db
 *.html
 
 #Dataset
-OmniMedVQA
+OmniMedVQA/
+exploration_outputs/

@@ -149,13 +149,6 @@ MediVision-OmniMedVQA/
 ├── .gitattributes
 │
 ├── notebooks/                <- Jupyter notebooks for different project stages
-│   ├── 01_part1_modality_analysis.ipynb
-│   ├── 01_part2_visualizing_examples.ipynb
-│   ├── 01_part3_dataset_challenges.ipynb
-│   ├── 02_part1_baselines.ipynb
-│   ├── 02_part2_reproduce_multimodal.ipynb
-│   ├── 03_experiments.ipynb
-│   └── 04_results_analysis.ipynb
 │
 ├── src/                      <- Modular Python code
 │   ├── config.py             <- Project-wide constants
@@ -164,7 +157,9 @@ MediVision-OmniMedVQA/
 │   ├── train.py              <- Training loop functions
 │   └── evaluate.py           <- Evaluation metrics & utilities
 │
-├── data/                     <- (Gitignored) placeholder for datasets
+├── data/                     <- Data and preprocessing configs
+│   ├── OmniMedVQA            <- (Gitignored) dataset
+│   ├── label_mappings        <- CSVs for label normalization
 │
 ├──experiments/               <- Configs & logs
 │   ├── configs/              <- JSON/YAML configs for experiments
