@@ -10,3 +10,17 @@ Hazy fundus without proliferative diabetic retinopathy (PDR)
 Smudged fundus without proliferative diabetic retinopathy (PDR)
 Obfuscated fundus without proliferative diabetic retinopathy (PDR)
 Intra type of radimageNet dataset.
+post operation type of RadImageNet dataset.
+RadimageNet dataset with no type specified.
+Extra type of radimageNet dataset.
+RadimageNet dataset of an unknown type.
+Intra type of radimageNet dataset with additional features.
+Inter type of radimageNet dataset.
+Diagnosis type of RadImageNet dataset.
+Prognosis type of RadImageNet dataset.
+Non-medical type of RadImageNet dataset.
+Post-surgery type of RadImageNet dataset.
+Pre-recovery type of RadImageNet dataset.
+Observation type of RadImageNet dataset.
+123 456
+IJK LMN
