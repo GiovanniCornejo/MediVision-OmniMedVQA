@@ -166,7 +166,7 @@ def load_omnimed_dataset(
 
     # Replace gt_answer text with gt_label mapping
     df = add_gt_label(df)
-    # df.drop(columns=["gt_answer"], inplace=True)
+    # df.drop(columns=["gt_answer"], inplace=True) # Uncomment this if you no longer need to see the original answers directly for each sample
 
     # Apply preprocessing (label normalization)
     if apply_label_normalization:
