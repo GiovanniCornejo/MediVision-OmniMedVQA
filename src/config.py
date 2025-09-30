@@ -6,6 +6,13 @@ DATA_DIR = os.environ.get("OMNIMEDVQA_DATA_DIR", DEFAULT_DATA_DIR) # Allow overr
 QA_DIR = os.path.join(DATA_DIR, "QA_information", "Open-access")
 IMG_DIR = os.path.join(DATA_DIR, "Images")
 
+# ---------------------------- Label Mapping Paths --------------------------- #
+LABEL_MAPPING_DIR = os.path.join("data", "label_mappings")
+
+NO_FINDING_MAP = os.path.join(LABEL_MAPPING_DIR, "no_finding_map.csv")
+INCONCLUSIVE_MAP = os.path.join(LABEL_MAPPING_DIR, "inconclusive_map.csv")
+YES_FINDING_MAP = os.path.join(LABEL_MAPPING_DIR, "yes_finding_map.csv")
+
 # ----------------------- Train/Validation/Test Splits ----------------------- #
 # Reserve 10% for held-out test set
 TEST_SPLIT_RATIO = 0.10
