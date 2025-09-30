@@ -5,7 +5,7 @@ from datasets import load_dataset, Dataset
 from sklearn.model_selection import train_test_split
 
 from .config import (
-    QA_DIR, NO_FINDING_MAP, INCONCLUSIVE_MAP, YES_FINDING_MAP,
+    QA_DIR, DATA_DIR, NO_FINDING_MAP, INCONCLUSIVE_MAP, YES_FINDING_MAP,
     QUESTION_TYPE, OPTION_COLS, SEED, TEST_SPLIT_RATIO, TRAIN_VAL_RATIO
 )
 
@@ -156,7 +156,7 @@ def load_omnimed_dataset(
     json_files = list_json_files(qa_dir)
 
     # Fix schema issues
-    fix_schema(json_files)
+    fix_schema(list_json_files(qa_dir))
 
     # Load unified DataFrame
     df: pd.DataFrame = load_dataset_df(json_files) # type: ignore
@@ -164,6 +164,9 @@ def load_omnimed_dataset(
     # Filter to only Disease Diagnosis if parameter is set
     df = df[df['question_type'] == QUESTION_TYPE].reset_index(drop=True)
 
+    # Prepend data directory to image paths
+    df['image_path'] = df['image_path'].apply(lambda p: os.path.join(DATA_DIR, p))
+    
     # Replace gt_answer text with gt_label mapping
     df = add_gt_label(df)
     df.drop(columns=["gt_answer"], inplace=True)
