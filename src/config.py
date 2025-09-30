@@ -7,11 +7,9 @@ QA_DIR = os.path.join(DATA_DIR, "QA_information", "Open-access")
 IMG_DIR = os.path.join(DATA_DIR, "Images")
 
 # ---------------------------- Label Mapping Paths --------------------------- #
-LABEL_MAPPING_DIR = os.path.join("data", "label_mappings")
-
-NO_FINDING_MAP = os.path.join(LABEL_MAPPING_DIR, "no_finding_map.csv")
-INCONCLUSIVE_MAP = os.path.join(LABEL_MAPPING_DIR, "inconclusive_map.csv")
-YES_FINDING_MAP = os.path.join(LABEL_MAPPING_DIR, "yes_finding_map.csv")
+NO_FINDING_MAP = os.path.join("data", "label_mappings", "no_finding_map.csv")
+INCONCLUSIVE_MAP = os.path.join("data", "label_mappings", "inconclusive_map.csv")
+YES_FINDING_MAP = os.path.join("data", "label_mappings", "yes_finding_map.csv")
 
 # --------------------------- Question Type Filter --------------------------- #
 QUESTION_TYPE = "Disease Diagnosis"

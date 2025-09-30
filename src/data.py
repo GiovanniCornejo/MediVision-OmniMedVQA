@@ -5,7 +5,7 @@ from datasets import load_dataset, Dataset
 from sklearn.model_selection import train_test_split
 
 from .config import (
-    QA_DIR, LABEL_MAPPING_DIR, NO_FINDING_MAP, INCONCLUSIVE_MAP, YES_FINDING_MAP,
+    QA_DIR, NO_FINDING_MAP, INCONCLUSIVE_MAP, YES_FINDING_MAP,
     QUESTION_TYPE, OPTION_COLS, SEED, TEST_SPLIT_RATIO, TRAIN_VAL_RATIO
 )
 
