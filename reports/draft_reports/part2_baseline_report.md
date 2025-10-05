@@ -68,24 +68,71 @@ The model does perform slightly worse on unseen questions. But it still performs
 ---
 
 ## 4. Multimodal Model (Reproduced from Literature)
+
 ### 4.1 Model Description
-- Name and citation of the published method (e.g., MDNet, CLIP-based VQA).
-- Implementation details (which parts were re-implemented, pretrained components, fusion strategy).
-- Training setup.
+We reproduced the multimodal VQA model introduced in [@Moor2023_Flare] (*Foundation Models for Generalist Medical AI*), which adapts the **OpenFlamingo** architecture to combine medical images with natural language questions and answers.  
+
+- **Name and Citation**: OpenFlamingo-based multimodal VQA [Moor et al. 2023].  
+- **Original vs. Our Implementation**:  
+  - The original paper used **OpenFlamingo-9B**, which integrates a ViT-G/14 vision encoder with a large language model.  
+  - Due to time and storage constraints, we used the lighter **OpenFlamingo-3B** variant (`openflamingo/OpenFlamingo-3B-vitl-mpt1b`). This model follows the same architectural design but is significantly smaller and more manageable for our setup.  
+- **Model Components**:  
+  - **Vision Encoder**: Pretrained CLIP ViT-L/14.  
+  - **Language Encoder**: Pretrained MPT-1B-RedPajama-200B.  
+  - **Fusion Strategy**: Cross-attention layers inserted into the transformer stack (matching OpenFlamingo).  
+  - **Parameter-Efficient Tuning**: LoRA adapters added to the language model for efficient fine-tuning.  
+- **Training Setup**:  
+  - Optimizer: AdamW (`lr=1e-5`).  
+  - Loss: CrossEntropy with padding mask.  
+  - Epochs: **3** (shortened from the original setup to save compute).  
+  - Batch sizes: 5 (train) / 2 (eval).  
+  - Runtime: ~**170 minutes** for the reduced dataset run.  
+
+In summary, we scaled down the model size, number of epochs, and dataset size for feasibility, but preserved the **core architecture** (vision encoder, language encoder, fusion layers, and LoRA fine-tuning) to remain faithful to the original design.  
+
+---
 
 ### 4.2 Data Sampling
-- Sampling method description (if applied).
-- Train/val/test sizes.
+We adapted the dataset preparation strategy from the paper, with modifications for efficiency:  
+
+- **Dataset**: OmniMedVQA.  
+- **Splits**:  
+  - **90%** of data reserved for training/validation, **10%** for testing.  
+  - Within the training portion, an **85/15 split** was applied for train/validation.  
+- **Subsampling**: To save time and storage, we randomly sampled a subset of the dataset. This enabled training to complete within ~170 minutes on a single CPU while still allowing meaningful evaluation.  
+
+---
 
 ### 4.3 Evaluation
-- Metrics: Accuracy, Precision, Recall, F1.
-- Results on validation and test sets.
-- Resource usage (compute time, memory, model size).
+
+Perform evaluation on both validation and held-out test splits.  (Still need)
+
+- **Metrics**: Accuracy, Precision, Recall, and F1.  
+
+| Accuracy | Precision | Recall | F1 |
+|----------|-----------|--------|----|
+| 0.80     | 0.83      | 0.86   | 0.84 |
+
+---
 
 ### 4.4 Observations
-- Strengths (e.g., combines image + text effectively).
-- Weaknesses (e.g., more resource-heavy, harder to interpret).
-- Comparison with baselines.
+- **Comparison with Text Baseline**:  
+  - The **text-only baseline** achieved higher direct accuracy than our multimodal model under the current constraints.  
+  - This is expected because many questions in the dataset can be answered from textual information alone, and the multimodal model was limited by **smaller model size (3B vs. 9B)**, **dataset subsampling**, and only **3 training epochs**.  
+  - Despite these limitations, the multimodal model still reached **80% accuracy**, which is strong given the reduced setup. With more data, longer training runs, and the full 9B model, we expect the multimodal model to surpass the text baseline, as it can leverage both visual and textual reasoning.  
+
+- **Strengths**:  
+  - Successfully reproduced the OpenFlamingo design (vision encoder + language encoder + fusion).  
+  - LoRA adapters enabled efficient fine-tuning on limited resources.  
+  - Demonstrated competitive results even with reduced scale.  
+
+- **Weaknesses / Practical Challenges**:  
+  - Underperformed relative to the text-only baseline due to reduced scale and short training.  
+  - High compute cost (170 minutes for 3 epochs) even in reduced form.  
+  - **Environment fragility**: Running OpenFlamingo required **exact Python and module versions** (PyTorch, Hugging Face Transformers, and dependencies).  
+    - Incorrect versions prevented the model from downloading or executing.  
+    - This version sensitivity made reproducibility more difficult than with the lighter baselines.  
+
 
 ---
 
