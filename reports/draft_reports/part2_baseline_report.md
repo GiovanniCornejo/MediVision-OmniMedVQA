@@ -210,5 +210,6 @@ The training loss steadily decreased across epochs (from 2.383 to 0.850), showin
 
 ## 5. Conclusion
 The text only model performs the best compared to the other models. We were not able to fully train the multi modal model and it performs worse. The dataset is simple and repetitive leading to very high unexpected accuracy on the test set using the text only model.
+
 ## References
-[//]: <> (Will be auto-populated with `pandoc reports/draft_reports/part2_baseline_report.md --citeproc --bibliography=references.bib --csl=ieee.csl  -o deliverables/part1/part2_baseline_report.html`... `pandoc reports/draft_reports/part2_baseline_report.md -o deliverables/part1/part2_baseline_report.pdf --pdf-engine=xelatex --citeproc --bibliography=references.bib --csl=ieee.csl -V classoption=twocolumn -V geometry:top=0.75in -V geometry:bottom=0.75in -V geometry:left=0.75in -V geometry:right=0.75in -V fontsize=10pt`)
+[//]: <> 
