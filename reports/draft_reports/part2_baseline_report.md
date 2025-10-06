@@ -47,7 +47,9 @@ The model performs very well on the text based questions. This highlights the si
 The model does perform slightly worse on unseen questions. But it still performs very well as these different questions may have similar answer options to other questions or the question is similar to another question in the dataset.
 
 ## 3. Image-Only Baseline
+
 ### 3.1 Model Description
+
 We implemented an image-only classification baseline using a **ResNet18** architecture pretrained on ImageNet. To adapt it for diagnosis classification, we replaced the final fully-connected (FC) layer to match the number of unique diagnosis labels.
 
 Model Details:
@@ -70,8 +72,21 @@ Image Preprocessing:
 We trained for 3 epochs, using a batch size of 32.
 
 ### 3.2 Data Sampling
-- Sampling method description (if applied).
-- Train/val/test sizes.
+
+We constructed a dataset consisting only of the image and the correct diagnosis label (no text context). For each question, the correct answer label was extracted and mapped to a class index.
+
+The same data splits from the overall pipeline were used:
+
+- Training: 42,380 samples
+- Validation: 7,472 samples
+- Test: 5,535 samples
+
+All images used were referenced from the full OmniMedVQA dataset. Class distribution was maintained implicitly (since we're using the same stratified train/val/test splits as the other baselines).
+
+Each data sample consists of:
+
+- The path to the question-associated image
+- The ground turth diagnosis label (as class index)
 
 ### 3.3 Evaluation
 - Metrics: Accuracy, Precision, Recall, F1.
