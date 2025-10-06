@@ -1,10 +1,7 @@
 # OmniMedVQA Diagnosis Benchmarking Report
 
 ## 1. Introduction
-- Briefly describe the problem: diagnosis prediction from OmniMedVQA dataset using text-only, image-only, and multimodal models.
-- State the dataset splits (train/val/test) and mention if stratified or random sampling was used (with justification).
-- Outline the goals: compare unimodal vs multimodal approaches, evaluate performance with appropriate metrics, and assess tradeoffs in resource usage.
-
+We are creating a baseline models to classify disease diagonsis on the omnimedivqa dataset. We test text only, image only, and multimodal models. The models are from existing papers used for similar tasks and datasets.
 ---
 
 ## 2. Text-Only Baseline
@@ -25,12 +22,14 @@ We filter the dataset to include only examples of questions on the disease diagn
 
 ### 2.3 Evaluation
 The reported results from our training shows that the model does no generalize, achieving similar losses for both training and validation. It also achives a very high accuracy of 0.995 in the validation set. 
+
 | Epoch | Validation Accuracy | Validation Loss | Training Loss|
 |-------|---------------------|-----------------|--------------|
 |1|0.993041|0.030241|0.036300|
 |2|0.994781|0.021077|0.022700|
 
 Evaluating the trained model on the test set we get the following results:
+
 | Accuracy | Precision (Macro) | Recall (Macro) | F1 (Macro)|
 |-------|---------------------|-----------------|--------------|
 |0.9906|0.9909| 0.9913|0.9911|
@@ -39,6 +38,7 @@ Since there are four possible options or classes the model decides on, we comput
 
 ### 2.4 Observations
 The model performs very well on the text based questions. This highlights the simplicity of the datset's questions. Examining the questions that appear in the test set and the training dataset, many questions are very similar with similar answer options. Without any images and only the text of the questions and the options, the model performs very well making correct guesses based on similar questions that appeared in the training data. The number of unique question strings that appear in the test datset is 2316. Of those unique questions in the test set, 1868 questions appear in the training dataset. This substantial overlap between train and test questions introduces a risk of data leakage, potentially inflating the reported accuracy and limiting the validity of generalization claims, as the model may simply memorize or recall previously seen questions rather than truly learning to generalize. Computing the accuracy only on questions that appeared in training dataset and those that did not we get:
+
 |Test Set Subset| Accuracy|
 |----------------------------|---------|
 |Questions In Train|0.992|
@@ -135,7 +135,7 @@ In conclusion, while the image-only model provides a strong foundation, it requi
 ## 4. Multimodal Model (Reproduced from Literature)
 
 ### 4.1 Model Description
-We reproduced the multimodal VQA model introduced in [@Moor2023_Flare] (*Foundation Models for Generalist Medical AI*), which adapts the **OpenFlamingo** architecture to combine medical images with natural language questions and answers.  
+We reproduced the multimodal VQA model introduced in [@Moor2023_MedFlamingo] (*Foundation Models for Generalist Medical AI*), which adapts the **OpenFlamingo** architecture to combine medical images with natural language questions and answers.  
 
 - **Name and Citation**: OpenFlamingo-based multimodal VQA [Moor et al. 2023].  
 - **Original vs. Our Implementation**:  
@@ -169,6 +169,7 @@ We adapted the dataset preparation strategy from the paper, with modifications f
 ---
 
 ### 4.3 Evaluation  
+
 | Epoch | Training Loss | Validation Loss |
 |-------|---------------|-----------------|
 | 0     | 2.383         | 1.478           |
@@ -208,6 +209,6 @@ The training loss steadily decreased across epochs (from 2.383 to 0.850), showin
 ---
 
 ## 5. Conclusion
-- Summarize performance comparisons between text-only, image-only, and multimodal models.
-- Highlight tradeoffs: accuracy vs. resource usage vs. interpretability.
-- Discuss implications for diagnosis tasks and possible future work (e.g., lighter multimodal models, interpretability improvements).
+The text only model performs the best compared to the other models. We were not able to fully train the multi modal model and it performs worse. The dataset is simple and repetitive leading to very high unexpected accuracy on the test set using the text only model.
+## References
+[//]: <> (Will be auto-populated with `pandoc reports/draft_reports/part2_baseline_report.md --citeproc --bibliography=references.bib --csl=ieee.csl  -o deliverables/part1/part2_baseline_report.html`... `pandoc reports/draft_reports/part2_baseline_report.md -o deliverables/part1/part2_baseline_report.pdf --pdf-engine=xelatex --citeproc --bibliography=references.bib --csl=ieee.csl -V classoption=twocolumn -V geometry:top=0.75in -V geometry:bottom=0.75in -V geometry:left=0.75in -V geometry:right=0.75in -V fontsize=10pt`)
