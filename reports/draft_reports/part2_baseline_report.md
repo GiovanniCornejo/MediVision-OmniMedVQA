@@ -73,7 +73,7 @@ We trained for 3 epochs, using a batch size of 32.
 
 ### 3.2 Data Sampling
 
-We constructed a dataset consisting only of the image and the correct diagnosis label (no text context). For each question, the correct answer label was extracted and mapped to a class index.
+We constructed a dataset consisting only of the image and the correct diagnosis label (no text context). For each question, the correct answer label was extracted and mapped to a class index. The final classification layer outputs logits over 156 diagnosis classes, and the model was trained with a batch size of 32.
 
 The same data splits from the overall pipeline were used:
 
@@ -89,13 +89,46 @@ Each data sample consists of:
 - The ground turth diagnosis label (as class index)
 
 ### 3.3 Evaluation
-- Metrics: Accuracy, Precision, Recall, F1.
-- Results on validation and test sets.
-- Resource usage.
+
+The following table summarizes the training and validation performance across the three training epochs:
+
+| Epoch | Training Accuracy | Training Loss | Validation Accuracy | Validation Loss |
+| ----- | ----------------- | ------------- | ------------------- | --------------- |
+| 1     | 0.6206            | 1.1827        | 0.6385              | 1.1688          |
+| 2     | 0.6505            | 1.0630        | 0.6320              | 1.1722          |
+| 3     | 0.6754            | 0.9655        | 0.6473              | 1.1663          |
+
+We evaluate the image-only baseline using standard classification metrics: accuracy, precision, recall, and F1 score.
+
+| Metric                | Value  |
+| --------------------- | ------ |
+| **Test Accuracy**     | 0.6319 |
+| **Precision (Macro)** | 0.3733 |
+| **Recall (Macro)**    | 0.3537 |
+| **F1 (Macro)**        | 0.3255 |
+
+The model achieved a test accuracy of 63.19%, which is a solid start, but the other metrics indicate that the model struggles with precision and recall. The precision (macro) is 0.3733, meaning that the model is not very good at minimizing false positives across classes. The recall (macro) is 0.3537, suggesting that the model has difficulty identifying the relevant diagnoses in general, especially across classes with fewer examples. This is reflected in the F1 score (macro) of 0.3255, which balances the precision and recall metrics.
+
+These results suggest that the model, while reasonable at identifying some diagnoses, could benefit from improved handling of class imbalance and better generalization across the full range of diagnosis classes.
+
+**Resource Usage**:
+- Training each epoch took approximately 65 seconds, and validation took about 12 seconds per epoch on my NVIDIA GeForce RTX 5070 Ti. These timings are based on my local hardware setup; groupmates working on other sections may have used different GPUs or CPUs, so compute times may not be directly comparable across models.
 
 ### 3.4 Observations
-- Strengths (e.g., good at visually distinct pathologies).
-- Weaknesses (e.g., struggles without textual context).
+
+The image-only model demonstrates some strengths but also highlights key limitations:
+
+- Strengths:
+  - Decent Accuracy: The model’s test accuracy of 63.19% shows that, on average, it is able to predict the correct diagnosis correctly for around 63% of the test samples.
+  - Training Improvements: Over the three epochs, both the training accuracy (from 62.06% to 67.54%) and validation accuracy (from 63.85% to 64.73%) increased, indicating that the model was learning to improve with more training.
+- Weaknesses:
+  - Low Precision and Recall: The low macro precision (0.3733) and macro recall (0.3537) indicate that the model has issues with both false positives and false negatives. It often misidentifies diagnoses across many of the 156 possible classes, which is critical for medical applications where misdiagnoses could have serious consequences.
+    - Class Imbalance: The model seems to be heavily impacted by class imbalance, which is common in medical datasets with many rare diseases or diagnoses. Some classes are underrepresented, and the model may not be able to learn their characteristics well.
+  - Limited Generalization: While the model improves over training, it is still not able to generalize well to the entire label space. The F1 score suggests that it struggles to balance both precision and recall.
+- Practical Challenges:
+  - Overfitting Potential: The model’s performance plateaus after a certain point, indicating possible overfitting to the training data. This could be due to the simplicity of the ResNet-18 model relative to the complexity of the dataset, especially when the number of classes is large.
+  
+In conclusion, while the image-only model provides a strong foundation, it requires further work to improve class balancing, regularization, and potentially deeper model architectures to enhance both precision and recall for this medical diagnosis task.
 
 ---
 
