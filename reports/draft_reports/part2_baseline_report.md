@@ -103,15 +103,21 @@ We adapted the dataset preparation strategy from the paper, with modifications f
 
 ---
 
-### 4.3 Evaluation
-
-Perform evaluation on both validation and held-out test splits.  (Still need)
+### 4.3 Evaluation  
+| Epoch | Training Loss | Validation Loss |
+|-------|---------------|-----------------|
+| 0     | 2.383         | 1.478           |
+| 1     | 1.110         | 1.443           |
+| 2     | 0.850         | 1.413           |
 
 - **Metrics**: Accuracy, Precision, Recall, and F1.  
 
-| Accuracy | Precision | Recall | F1 |
-|----------|-----------|--------|----|
-| 0.80     | 0.83      | 0.86   | 0.84 |
+| Accuracy | Precision | Recall | F1   |
+|----------|-----------|--------|------|
+| 0.802    | 0.831     | 0.859  | 0.843 |
+
+The training loss steadily decreased across epochs (from 2.383 to 0.850), showing that the model was able to effectively learn from the data. Validation loss also improved, though it plateaued after the first epoch, suggesting that further training or regularization may be required to prevent overfitting. On the evaluation set, the model achieved an accuracy of 0.802 with precision of 0.831, recall of 0.859, and F1 score of 0.843. These values indicate a balanced performance across metrics, with recall being slightly stronger than precision, which suggests the model is more effective at capturing positive cases than avoiding false positives. Given the relatively small dataset, the use of the smaller OpenFlamingo-3B model, and the limited number of training epochs, these results are promising and suggest that performance could improve with additional training time, larger data samples, or scaling to a larger model variant.
+
 
 ---
 
