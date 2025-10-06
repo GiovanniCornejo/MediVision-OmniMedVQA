@@ -124,6 +124,8 @@ After setting up the environment and downloading the dataset:
 jupyter notebook notebooks/01_data_exploration.ipynb
 ```
 
+> ⚠️ **Note:** This below part of the code is not set up yet. Please run the notebooks directly instead
+
 2. Run a baseline experiment (image-only):
 
 ```bash
