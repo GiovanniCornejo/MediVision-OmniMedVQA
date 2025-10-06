@@ -63,8 +63,7 @@ pip install -r requirements.txt
 If you plan to run the notebooks interactively:
 
 ```bash
-pip install ipykernel
-python -m ipykernel install --user --name=medivision --display-name "Python (medivision)"
+jupyter notebook .
 ```
 
 ### 📂 Data Directory Setup
