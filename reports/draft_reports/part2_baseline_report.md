@@ -48,9 +48,26 @@ The model does perform slightly worse on unseen questions. But it still performs
 
 ## 3. Image-Only Baseline
 ### 3.1 Model Description
-- Architecture used (e.g., ResNet50, EfficientNet).
-- Input preprocessing (resize, normalization, augmentations).
-- Training setup.
+We implemented an image-only classification baseline using a **ResNet18** architecture pretrained on ImageNet. To adapt it for diagnosis classification, we replaced the final fully-connected (FC) layer to match the number of unique diagnosis labels.
+
+Model Details:
+
+- Backbone: `torchvision.models.resnet18`
+- Pretrained Weights: ImageNet (ResNet18_Weights.DEFAULT)
+- Final Layer: Replaced with a new `nn.Linear(in_features, num_classes)`
+- Loss Function: CrossEntropyLoss
+- Optimizer: Adam (`lr=1e-4`)
+- Learning Rate Scheduler: StepLR (`step_size=5`, `gamma=0.5`)
+
+Image Preprocessing:
+
+- Resize to `(224, 224)`
+- Normalization: Used ResNet18 default transforms (mean/std)
+- Augmentations (train set only):
+  - Random horizontal flip
+  - Random rotation ($\pm$ 10 degrees)
+
+We trained for 3 epochs, using a batch size of 32.
 
 ### 3.2 Data Sampling
 - Sampling method description (if applied).
