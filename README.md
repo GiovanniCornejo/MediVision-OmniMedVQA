@@ -199,16 +199,16 @@ MediVision-OmniMedVQA/
 
 ### 📊 2. Benchmarking
 
-- [ ] Implement image-only baseline
-  - [ ] Preprocess images (resize, normalize, augment)
-  - [ ] Train and evaluate baseline model
-- [ ] Implement text-only baseline
-  - [ ] Preprocess text
-  - [ ] Train and evaluate baseline model
-- [ ] Reproduce one published multimodal method
-- [ ] Evaluate models on validation & test splits (accuracy, precision, recall, F1-score)
-- [ ] Compare models across modalities and metrics
-- [ ] Write Benchmarking report (max 3 pages)
+- [x] Implement image-only baseline
+  - [x] Preprocess images (resize, normalize, augment)
+  - [x] Train and evaluate baseline model
+- [x] Implement text-only baseline
+  - [x] Preprocess text
+  - [x] Train and evaluate baseline model
+- [x] Reproduce one published multimodal method
+- [x] Evaluate models on validation & test splits (accuracy, precision, recall, F1-score)
+- [x] Compare models across modalities and metrics
+- [x] Write Benchmarking report (max 3 pages)
 
 ### ⚡ 3. Development of Own Method
 
