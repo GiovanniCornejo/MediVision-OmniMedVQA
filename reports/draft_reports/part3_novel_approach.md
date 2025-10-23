@@ -1,5 +1,12 @@
 # OmniMedVQA Image-Text Fusion Model
 
+---
+title: "OmniMedVQA Image-Text Fusion Model"
+header-includes:
+   - "\\usepackage{booktabs}"
+   - "\\usepackage{graphicx}"
+---
+
 ## 1. Introduction
 
 The dataset OmniMedVQA consists of medical vision question answering tasks. The tasks consists of predicting the disease given a image of the specific region, a question, and up to four possible disease options. To complete this task, we must design a multimodal model that can use image input and text input to determine which option is the best to use.
@@ -8,7 +15,7 @@ The dataset OmniMedVQA consists of medical vision question answering tasks. The 
 
 ### 2.1 Model Architecture
 
-![Multimodal model architecture](reports/figures/multimodal-model.png){ width=90% }
+![Multimodal model architecture](reports/figures/multimodal-model.png){ width=70% }
 To create a multimodal model, we decided to use deep learning image and text models, extract features from each modality, and fuse them to create a unified representation.
 
 To obtain the image features, we use a ResNet50 model where multiple layers of convolutions and pooling are performed to produce an output of (512,1,1) for each image. We remove the final fully connected layer in the ResNet50 model to obtain an embedding representation, which is then passed to a linear layer to produce a feature vector of size 512, our chosen fusion dimension.
@@ -90,14 +97,23 @@ Overall, this setup balances simplicity, interpretability, and strong multimodal
 
 After training the model on the OmniMedVQA dataset, we got the following results on the test set:
 
-| Metric                |   Value    |
-| :-------------------- | :--------: |
-| **Accuracy**          | **0.9526** |
-| **Precision (Macro)** | **0.9586** |
-| **Recall (Macro)**    | **0.9498** |
-| **F1-Score (Macro)**  | **0.9536** |
+\begin{table*}[ht]
+\centering
+\caption{Test set performance metrics for the multimodal model.}
+\begin{tabular}{l c}
+	oprule
+Metric & Value \\
+\midrule
+Accuracy & 0.9526 \\
+Precision (Macro) & 0.9586 \\
+Recall (Macro) & 0.9498 \\
+F1-Score (Macro) & 0.9536 \\
+\bottomrule
+\end{tabular}
+\label{tab:test_results}
+\end{table*}
 
-These results show that the model performs consistently across all classes.  
+These results show that the model performs consistently across all classes.
 It correctly predicts diseases even when visual differences are subtle, which means the attention-gated fusion is helping the model learn which cues matter most for each question.
 
 Because the ResNet50 model has so many parameters it was necessary to use a large computing cluster such as HiPerGator to decrease the amount of time it takes for training.
