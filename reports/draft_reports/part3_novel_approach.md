@@ -67,8 +67,7 @@ To train our multimodal model, we used the OmniMedVQA dataset, which includes an
 
 ### 2.3 Design Rationale
 
-The main goal is to be able to take the image, along with the questions/answers and determine a moderately accurate diagnosis without
-the assistance of any doctor. In testing we noticed that a lot of the decision comes more so from the image rather than the questions
+The main goal is to leverage image and text information to assist doctors in efficiently identifying potential diagnoses, reducing the time required for manual analysis. In testing we noticed that a lot of the decision comes more so from the image rather than the questions
 themselves as the images can be much more detailed than a simple question/answer combination.
 
 - **ResNet50 for Image Features:**  
