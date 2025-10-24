@@ -124,15 +124,20 @@ After setting up the environment and downloading the dataset:
 jupyter notebook notebooks/01_data_exploration.ipynb
 ```
 
+2. Run the novel fusion model (multi-modal):
+```bash
+jupyter notebook notebooks/03_part1_novel_approach.ipynb
+```
+
 > ⚠️ **Note:** This below part of the code is not set up yet. Please run the notebooks directly instead
 
-2. Run a baseline experiment (image-only):
+3. Run a baseline experiment (image-only):
 
 ```bash
 python src/train.py --config experiments/configs/baseline_image.json
 ```
 
-3. Evaluate the results:
+4. Evaluate the results:
 
 ```bash
 python src/evaluate.py --config experiments/configs/baseline_image.json

@@ -97,21 +97,20 @@ Overall, this setup balances simplicity, interpretability, and strong multimodal
 
 After training the model on the OmniMedVQA dataset, we got the following results on the test set:
 
-\begin{table*}[ht]
-\centering
-\caption{Test set performance metrics for the multimodal model.}
+\begin{center}
+\small
 \begin{tabular}{l c}
-	oprule
+\hline
 Metric & Value \\
-\midrule
+\hline
 Accuracy & 0.9526 \\
 Precision (Macro) & 0.9586 \\
 Recall (Macro) & 0.9498 \\
 F1-Score (Macro) & 0.9536 \\
-\bottomrule
+\hline
 \end{tabular}
-\label{tab:test_results}
-\end{table*}
+\normalsize
+\end{center}
 
 These results show that the model performs consistently across all classes.
 It correctly predicts diseases even when visual differences are subtle, which means the attention-gated fusion is helping the model learn which cues matter most for each question.
